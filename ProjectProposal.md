@@ -35,8 +35,8 @@ People sometimes want to create their own music but the apps out there are eithe
 ## Execution
 
 ###Sprint Cycle
-| Week | Date | Sprint | 
-|---|---|---|---|
+|  Week  |   Date   | Sprint | 
+|:------:|:--------:|:------:|
 | Week 1 | 8/3-8/9  | Ideation and feasibility |
 | Week 2 | 8/10-8/16 |Sensor catalogue and Research: baseline technical specs for rudimentary signal output, plan signal mapping and how that can tie in with visualizer, sampler/sequencer work, and UI.|
 | Week 3 | 8/17-8/23 | Finish baseline implementation (Working data input and analog output system) begin work on other features |
