@@ -12,7 +12,7 @@
         <TableRow>
             <TextView
                 android:id="@+id/xcoor"
-                android:text="X Coordinate: "
+                android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
@@ -21,7 +21,7 @@
         <TableRow>
             <TextView
                 android:id="@+id/ycoor"
-                android:text="Y Coordinate: "
+                android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
@@ -30,12 +30,17 @@
         <TableRow>
             <TextView
                 android:id="@+id/zcoor"
-                android:text="Z Coordinate: "
+                android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
         </TableRow>
 
     </TableLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="accelerate"
+        android:onClick="accelerate"/>
 
 </LinearLayout>
