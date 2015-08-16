@@ -63,3 +63,4 @@ We met all major development goals, we should hold true to making a sample app f
   *  How can you improve productivity and get the most work done within the next week?
       We have developed a good pace. Sound generation demands extensive researchsound forms, reverb, tremolo, flanger etc.
 **Mentor Comments**:
+So far, so good.  The team has good division of labor, experimenting with separate concepts needed to construct the final project.  I suggested 1) focusing more attention to handling multiple audio tracks and less on atypical waveforms (square, saw) and 2) an alternate way of ignoring sensor data favoring listener de/registration over threading as the latter can become tricky to manage.  We also went over when to use Handlers & Loopers.  I'm looking forward to seeing how things progress next week.
