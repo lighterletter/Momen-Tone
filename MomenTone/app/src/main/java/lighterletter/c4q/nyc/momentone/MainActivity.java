@@ -53,20 +53,20 @@ public class MainActivity extends AppCompatActivity {
         seekBar = (SeekBar) findViewById(R.id.main_textview);
         axisValueTextView = (TextView) findViewById(R.id.xcoor);
 
-//        sensorThread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true){
-//                    try {
-//                        delayedNoteValue = noteValue;
-//                        Thread.sleep(800);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        });
-//        sensorThread.start();
+        sensorThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try {
+                        delayedNoteValue = noteValue;
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        sensorThread.start();
 
 // SETTING UP SENSOR
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                                            public void onSensorChanged(SensorEvent event) {
                                                if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                                                    // assign directions
-                                                   sensorAxis = event.values[1];
+                                                   sensorAxis = event.values[0];
 
                                                    axisValueTextView.setText(String.valueOf(sensorAxis));
 
@@ -164,7 +164,8 @@ public class MainActivity extends AppCompatActivity {
 
                             // synthesis loop
                             while (isRunning) {
-                                frequency = noteValue;
+//                                frequency = noteValue;
+                                frequency = delayedNoteValue;
                                 for (int i = 0; i < minimumBufferSize; i++) {
                                     audioDataSamples[i] = (short) (amplitude * Math.sin(phase));
                                     phase += twoPi * frequency / SAMPLE_RATE;
