@@ -10,17 +10,11 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/xcoor"
+        android:id="@+id/main_axis_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0" />
 
-    <SeekBar
-        android:id="@+id/main_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="100"
-        android:text="@string/hello_world" />
 
     <Button
         android:id="@+id/main_start_btn"
