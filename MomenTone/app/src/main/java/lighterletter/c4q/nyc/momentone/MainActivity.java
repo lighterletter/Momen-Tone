@@ -16,30 +16,29 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
 
+    // sensormanager that gets registered with listeners
+    SensorManager sensorManager;
+    SensorEventListener sensorEventListener;
+
+    public static final int SAMPLE_RATE = 44100;
+
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
     private static final int SHAKE_THRESHOLD = 600;
     private long diffTime;
 
+    boolean isRunning = false;
 
     // audio threads
     Thread audioThreadOne;
-    Thread audioThreadTwo;
-    // sensormanager that gets registered with listeners
-    SensorManager sensorManager;
-    // audio tracks playing
     AudioTrack audioTrackOne;
-    AudioTrack audioTrackTwo;
-    // sample rate
-    public static final int SAMPLE_RATE = 44100;
-    //frequencies
     double putThisAsFrequencyA;
+
+    // I LIKE 2 THREADS BUT FOR SIMPLICITY I'M GOING BACK TO ONE
+    Thread audioThreadTwo;
+    AudioTrack audioTrackTwo;
     double putThisAsFrequencyB;
 
-    boolean isRunning = false;
-
-    TextView axisValueTextView;
-    EditText axisNum;
 
     private double A = 440.00;   // hz  "Concert A" A above middle C
     private double AsBb = 466.16;   // hz: A#/Bb
@@ -55,17 +54,11 @@ public class MainActivity extends AppCompatActivity {
     private double GsAb = 830.61;
     private double Aoc = 880.00;
 
-    SensorEventListener sensorEventListener;
-
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // SETTING UP VIEWS
-        axisValueTextView = (TextView) findViewById(R.id.main_axis_tv);
 
         // SETTING UP START BUTTON
         findViewById(R.id.main_start_btn).setOnClickListener(new View.OnClickListener() {
@@ -111,16 +104,16 @@ public class MainActivity extends AppCompatActivity {
                     float y = event.values[1];
                     float z = event.values[2];
 
-                    // assign directions
                     long curTime = System.currentTimeMillis();
 
+                    // refresh rate
                     if ((curTime - lastUpdate) > 100) {
                         diffTime = (curTime - lastUpdate);
                         lastUpdate = curTime;
                     }
 
-                    float speed = (float)(Math.abs(x + y + z - last_x - last_y - last_z)/ diffTime * 10000);
-
+                    float speed = (float) (Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000);
+                    //
                     if (speed > SHAKE_THRESHOLD) {
                         putThisAsFrequencyA = playNote(event.values[0]);
                         putThisAsFrequencyB = playNote(event.values[1]);
@@ -283,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                     frequency = putThisAsFrequencyA;
                     for (int i = 0; i < minimumBufferSize; i++) {
                         audioDataSamples[i] = (short) (amplitude * Math.sin(phase));
-                        phase += twoPi * frequency * 0.5 / SAMPLE_RATE;
+                        phase += twoPi * frequency * 0.8 / SAMPLE_RATE;
                     }
                     audioTrackOne.write(audioDataSamples, 0, minimumBufferSize);
                 }
