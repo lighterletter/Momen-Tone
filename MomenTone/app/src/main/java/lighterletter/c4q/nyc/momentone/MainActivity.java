@@ -9,9 +9,11 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
-    private static final int SHAKE_THRESHOLD = 600;
+    private static final int SHAKE_THRESHOLD = 200;
     private long diffTime;
 
     boolean isRunning = false;
@@ -35,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
     double putThisAsFrequencyA;
 
     // I LIKE 2 THREADS BUT FOR SIMPLICITY I'M GOING BACK TO ONE
-    Thread audioThreadTwo;
-    AudioTrack audioTrackTwo;
-    double putThisAsFrequencyB;
+//    Thread audioThreadTwo;
+//    AudioTrack audioTrackTwo;
+//    double putThisAsFrequencyB;
 
 
     private double A = 440.00;   // hz  "Concert A" A above middle C
@@ -55,10 +57,26 @@ public class MainActivity extends AppCompatActivity {
     private double Aoc = 880.00;
 
 
+    TextView xResponseLV;
+    TextView yResponseLV;
+    TextView zResponseLV;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        xResponseLV = (TextView) findViewById(R.id.main_x_responses_lv);
+        yResponseLV = (TextView) findViewById(R.id.main_y_responses_lv);
+        zResponseLV = (TextView) findViewById(R.id.main_z_responses_lv);
+
+        xResponseLV.setMovementMethod(new ScrollingMovementMethod());
+        yResponseLV.setMovementMethod(new ScrollingMovementMethod());
+        zResponseLV.setMovementMethod(new ScrollingMovementMethod());
+
+
+
 
         // SETTING UP START BUTTON
         findViewById(R.id.main_start_btn).setOnClickListener(new View.OnClickListener() {
@@ -67,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
                 // isRunning tells us if the audio is playing
                 if (!isRunning) {
                     setupThreadOne();
-                    setupThreadTwo();
+//                    setupThreadTwo();
                     audioThreadOne.start();
-                    audioThreadTwo.start();
+//                    audioThreadTwo.start();
                 }
 
             }
@@ -85,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
                     audioTrackOne.release();
                     audioThreadOne.interrupt();
                 }
-                if (audioThreadTwo.isAlive() && !audioThreadTwo.isInterrupted() && isRunning) {
-                    isRunning = false;
-                    audioTrackTwo.stop();
-                    audioTrackTwo.release();
-                    audioThreadTwo.interrupt();
-                }
+//                if (audioThreadTwo.isAlive() && !audioThreadTwo.isInterrupted() && isRunning) {
+//                    isRunning = false;
+//                    audioTrackTwo.stop();
+//                    audioTrackTwo.release();
+//                    audioThreadTwo.interrupt();
+//                }
             }
         });
 
@@ -112,11 +130,15 @@ public class MainActivity extends AppCompatActivity {
                         lastUpdate = curTime;
                     }
 
-                    float speed = (float) (Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000);
+//                    float speed = (float) (Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000);
+                    float speed = (float) (Math.abs(x  - last_x ) / diffTime * 10000);
                     //
                     if (speed > SHAKE_THRESHOLD) {
-                        putThisAsFrequencyA = playNote(event.values[0]);
-                        putThisAsFrequencyB = playNote(event.values[1]);
+                        putThisAsFrequencyA = playNote(y);
+                        xResponseLV.append(x+"\n");
+                        yResponseLV.append(y+"\n");
+                        zResponseLV.append(z+"\n");
+//                        putThisAsFrequencyB = playNote(event.values[1]);
                     }
 
                     last_x = x;
@@ -155,93 +177,122 @@ public class MainActivity extends AppCompatActivity {
         audioThreadOne = null;
     }
 
+    public boolean between(float value,int small, int big){
+        if(value>=small && value<big)
+            return true;
+        return false;
+    }
     // return note frequency
     public double playNote(float realtimeSensorValue) {
 
-        if (realtimeSensorValue >= 9 && realtimeSensorValue < 10) {
-            // Tilted up so scroll down
+        if (between(realtimeSensorValue,9,10)) {
             return A;
-        } else if (realtimeSensorValue >= 8 && realtimeSensorValue < 9) {
-            // Tilted down so scroll up
+        } else if (between(realtimeSensorValue,8,9)) {
             return AsBb;
-        } else if (realtimeSensorValue >= 7 && realtimeSensorValue < 8) {
-            // Tilted down so scroll up
+        } else if (between(realtimeSensorValue,7,8)) {
             return B;
-        } else if (realtimeSensorValue >= 6 && realtimeSensorValue < 7) {
-            // Tilted down so scroll up
+        } else if (between(realtimeSensorValue,6,7)) {
             return C;
-        } else if (realtimeSensorValue >= 5 && realtimeSensorValue < 6) {
+        } else if (between(realtimeSensorValue,5,6)) {
             // Tilted down so scroll up
             return CsDb;
-        } else if (realtimeSensorValue >= 4 && realtimeSensorValue < 5) {
+        } else if (between(realtimeSensorValue,4,5)) {
             // Tilted down so scroll up
             return D;
-        } else if (realtimeSensorValue >= 3 && realtimeSensorValue < 4) {
+        } else if (between(realtimeSensorValue,3,4)) {
             // Tilted down so scroll up
             return DsEb;
-        } else if (realtimeSensorValue >= 2 && realtimeSensorValue < 3) {
+        } else if (between(realtimeSensorValue,2,3)) {
             // Tilted down so scroll up
             return E;
-        } else if (realtimeSensorValue >= 1 && realtimeSensorValue < 2) {
+        } else if (between(realtimeSensorValue,1,2)) {
             // Tilted down so scroll up
             return F;
-        } else if (realtimeSensorValue >= 0 && realtimeSensorValue < 1) {
+        } else if (between(realtimeSensorValue,0,1)) {
             // Tilted down so scroll up
             return FsGb;
-        } else if (realtimeSensorValue >= -1 && realtimeSensorValue < 0) {
+        } else if (between(realtimeSensorValue,-1,0)) {
             // Tilted down so scroll up
             return G;
-        } else if (realtimeSensorValue >= -2 && realtimeSensorValue < -1) {
+        } else if (between(realtimeSensorValue,-2,-1)) {
             // Tilted down so scroll up
             return GsAb;
-        } else {
+        } else if (between(realtimeSensorValue,-3,-2)) {
+            // Tilted down so scroll up
+            return A*2;
+        }else if (between(realtimeSensorValue,-4,-3)) {
+            // Tilted down so scroll up
+            return AsBb*2;
+        }else if (between(realtimeSensorValue,-5,-4)) {
+            // Tilted down so scroll up
+            return B*2;
+        }else if (between(realtimeSensorValue,-6,-5)) {
+            // Tilted down so scroll up
+            return C*2;
+        }else if (between(realtimeSensorValue,-7,-6)) {
+            // Tilted down so scroll up
+            return CsDb*2;
+        }else if (between(realtimeSensorValue,-8,-7)) {
+            // Tilted down so scroll up
+            return D*2;
+        }else if (between(realtimeSensorValue,-9,-8)) {
+            // Tilted down so scroll up
+            return DsEb*2;
+        }else if (between(realtimeSensorValue,-10,-9)) {
+            // Tilted down so scroll up
+            return E*2;
+        }else if (between(realtimeSensorValue,-11,-10)) {
+            // Tilted down so scroll up
+            return F*2;
+        }
+        else {
             // Stop scrolling
-            return Aoc;
+            return 0;
         }
 
     }
 
     // setting up thread with audiotrack of frequency B
-    public void setupThreadTwo() {
-        audioThreadTwo = new Thread() {
-            public void run() {
-                // Update isRunning value
-                isRunning = true;
-                // SETTING UP THE AUDIO PARAMS
-                int minimumBufferSize = AudioTrack.getMinBufferSize(
-                        SAMPLE_RATE,
-                        AudioFormat.CHANNEL_OUT_MONO,
-                        AudioFormat.ENCODING_PCM_16BIT);
-                audioTrackTwo = new AudioTrack(
-                        AudioManager.STREAM_MUSIC,
-                        SAMPLE_RATE,
-                        AudioFormat.CHANNEL_OUT_MONO,
-                        AudioFormat.ENCODING_PCM_16BIT,
-                        minimumBufferSize,
-                        AudioTrack.MODE_STREAM);
-
-                // SOUNDTRACK VARIABLES
-                short[] audioDataSamples = new short[minimumBufferSize];
-                int amplitude = 10000;
-                double twoPi = 8. * Math.atan(1.);
-                double frequency = 440.f;
-                double phase = 0.0;
-
-                audioTrackTwo.play();
-
-                // synthesis loop
-                while (isRunning) {
-                    frequency = putThisAsFrequencyB;
-                    for (int i = 0; i < minimumBufferSize; i++) {
-                        audioDataSamples[i] = (short) (amplitude * Math.sin(phase));
-                        phase += twoPi * frequency / SAMPLE_RATE;
-                    }
-                    audioTrackTwo.write(audioDataSamples, 0, minimumBufferSize);
-                }
-
-            }
-        };
-    }
+//    public void setupThreadTwo() {
+//        audioThreadTwo = new Thread() {
+//            public void run() {
+//                // Update isRunning value
+//                isRunning = true;
+//                // SETTING UP THE AUDIO PARAMS
+//                int minimumBufferSize = AudioTrack.getMinBufferSize(
+//                        SAMPLE_RATE,
+//                        AudioFormat.CHANNEL_OUT_MONO,
+//                        AudioFormat.ENCODING_PCM_16BIT);
+//                audioTrackTwo = new AudioTrack(
+//                        AudioManager.STREAM_MUSIC,
+//                        SAMPLE_RATE,
+//                        AudioFormat.CHANNEL_OUT_MONO,
+//                        AudioFormat.ENCODING_PCM_16BIT,
+//                        minimumBufferSize,
+//                        AudioTrack.MODE_STREAM);
+//
+//                // SOUNDTRACK VARIABLES
+//                short[] audioDataSamples = new short[minimumBufferSize];
+//                int amplitude = 10000;
+//                double twoPi = 8. * Math.atan(1.);
+//                double frequency = 440.f;
+//                double phase = 0.0;
+//
+//                audioTrackTwo.play();
+//
+//                // synthesis loop
+//                while (isRunning) {
+//                    frequency = putThisAsFrequencyB;
+//                    for (int i = 0; i < minimumBufferSize; i++) {
+//                        audioDataSamples[i] = (short) (amplitude * Math.sin(phase));
+//                        phase += twoPi * frequency / SAMPLE_RATE;
+//                    }
+//                    audioTrackTwo.write(audioDataSamples, 0, minimumBufferSize);
+//                }
+//
+//            }
+//        };
+//    }
 
     // setting up thread with audiotrack of frequency A
     public void setupThreadOne() {

@@ -20,29 +20,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="X Responses:"/>
-    <ListView
+    <TextView
+        android:gravity="bottom"
         android:id="@+id/main_x_responses_lv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></ListView>
+        android:layout_weight="1"
+        android:scrollbars="vertical"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Y Responses:"/>
-    <ListView
+    <TextView
+        android:gravity="bottom"
         android:id="@+id/main_y_responses_lv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></ListView>
+        android:layout_weight="1"
+        android:scrollbars="vertical"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Z Responses:"/>
-    <ListView
+    <TextView
+        android:gravity="bottom"
         android:id="@+id/main_z_responses_lv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></ListView>
+        android:layout_weight="1"
+        android:scrollbars="vertical"/>
 
 
 </LinearLayout>
