@@ -13,6 +13,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
         zResponseLV.setMovementMethod(new ScrollingMovementMethod());
 
 
-
-
         // SETTING UP START BUTTON
         findViewById(R.id.main_start_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,38 +115,12 @@ public class MainActivity extends AppCompatActivity {
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
-                if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
-                    float x = event.values[0];
-                    float y = event.values[1];
-                    float z = event.values[2];
-
-                    long curTime = System.currentTimeMillis();
-
-                    // refresh rate
-                    if ((curTime - lastUpdate) > 100) {
-                        diffTime = (curTime - lastUpdate);
-                        lastUpdate = curTime;
-                    }
-
-//                    float speed = (float) (Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000);
-                    float speed = (float) (Math.abs(x  - last_x ) / diffTime * 10000);
-                    //
-                    if (speed > SHAKE_THRESHOLD) {
-                        putThisAsFrequencyA = playNote(y);
-                        xResponseLV.append(x+"\n");
-                        yResponseLV.append(y+"\n");
-                        zResponseLV.append(z+"\n");
-
-//                        putThisAsFrequencyB = playNote(event.values[1]);
-                    }
-
-                    last_x = x;
-                    last_y = y;
-                    last_z = z;
-
-
+                if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+                    putThisAsFrequencyA = event.values[0] * 10;
                 }
+
+
             }
 
             @Override
@@ -160,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         sensorManager.registerListener(
                 sensorEventListener,
-                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
                 SensorManager.SENSOR_DELAY_NORMAL);
 
 
@@ -178,76 +151,76 @@ public class MainActivity extends AppCompatActivity {
         audioThreadOne = null;
     }
 
-    public boolean between(float value,int small, int big){
-        if(value>=small && value<big)
+    public boolean between(float value, int small, int big) {
+        if (value >= small && value < big)
             return true;
         return false;
     }
+
     // return note frequency
     public double playNote(float realtimeSensorValue) {
-        if (between(realtimeSensorValue,11,10)) {
-            return GsAb*0.5;
-        } else if (between(realtimeSensorValue,9,10)) {
+        if (between(realtimeSensorValue, 11, 10)) {
+            return GsAb * 0.5;
+        } else if (between(realtimeSensorValue, 9, 10)) {
             return A;
-        } else if (between(realtimeSensorValue,8,9)) {
+        } else if (between(realtimeSensorValue, 8, 9)) {
             return AsBb;
-        } else if (between(realtimeSensorValue,7,8)) {
+        } else if (between(realtimeSensorValue, 7, 8)) {
             return B;
-        } else if (between(realtimeSensorValue,6,7)) {
+        } else if (between(realtimeSensorValue, 6, 7)) {
             return C;
-        } else if (between(realtimeSensorValue,5,6)) {
+        } else if (between(realtimeSensorValue, 5, 6)) {
             // Tilted down so scroll up
             return CsDb;
-        } else if (between(realtimeSensorValue,4,5)) {
+        } else if (between(realtimeSensorValue, 4, 5)) {
             // Tilted down so scroll up
             return D;
-        } else if (between(realtimeSensorValue,3,4)) {
+        } else if (between(realtimeSensorValue, 3, 4)) {
             // Tilted down so scroll up
             return DsEb;
-        } else if (between(realtimeSensorValue,2,3)) {
+        } else if (between(realtimeSensorValue, 2, 3)) {
             // Tilted down so scroll up
             return E;
-        } else if (between(realtimeSensorValue,1,2)) {
+        } else if (between(realtimeSensorValue, 1, 2)) {
             // Tilted down so scroll up
             return F;
-        } else if (between(realtimeSensorValue,0,1)) {
+        } else if (between(realtimeSensorValue, 0, 1)) {
             // Tilted down so scroll up
             return FsGb;
-        } else if (between(realtimeSensorValue,-1,0)) {
+        } else if (between(realtimeSensorValue, -1, 0)) {
             // Tilted down so scroll up
             return G;
-        } else if (between(realtimeSensorValue,-2,-1)) {
+        } else if (between(realtimeSensorValue, -2, -1)) {
             // Tilted down so scroll up
             return GsAb;
-        } else if (between(realtimeSensorValue,-3,-2)) {
+        } else if (between(realtimeSensorValue, -3, -2)) {
             // Tilted down so scroll up
-            return A*2;
-        }else if (between(realtimeSensorValue,-4,-3)) {
+            return A * 2;
+        } else if (between(realtimeSensorValue, -4, -3)) {
             // Tilted down so scroll up
-            return AsBb*2;
-        }else if (between(realtimeSensorValue,-5,-4)) {
+            return AsBb * 2;
+        } else if (between(realtimeSensorValue, -5, -4)) {
             // Tilted down so scroll up
-            return B*2;
-        }else if (between(realtimeSensorValue,-6,-5)) {
+            return B * 2;
+        } else if (between(realtimeSensorValue, -6, -5)) {
             // Tilted down so scroll up
-            return C*2;
-        }else if (between(realtimeSensorValue,-7,-6)) {
+            return C * 2;
+        } else if (between(realtimeSensorValue, -7, -6)) {
             // Tilted down so scroll up
-            return CsDb*2;
-        }else if (between(realtimeSensorValue,-8,-7)) {
+            return CsDb * 2;
+        } else if (between(realtimeSensorValue, -8, -7)) {
             // Tilted down so scroll up
-            return D*2;
-        }else if (between(realtimeSensorValue,-9,-8)) {
+            return D * 2;
+        } else if (between(realtimeSensorValue, -9, -8)) {
             // Tilted down so scroll up
-            return DsEb*2;
-        }else if (between(realtimeSensorValue,-10,-9)) {
+            return DsEb * 2;
+        } else if (between(realtimeSensorValue, -10, -9)) {
             // Tilted down so scroll up
-            return E*2;
-        }else if (between(realtimeSensorValue,-11,-10)) {
+            return E * 2;
+        } else if (between(realtimeSensorValue, -11, -10)) {
             // Tilted down so scroll up
-            return F*2;
-        }
-        else {
+            return F * 2;
+        } else {
             // Stop scrolling
             return 0;
         }
@@ -326,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // synthesis loop
                 while (isRunning) {
+                    // TODO HERE WE CAN CHANGE FREQUENCIES
                     frequency = putThisAsFrequencyA;
                     for (int i = 0; i < minimumBufferSize; i++) {
                         audioDataSamples[i] = (short) (amplitude * Math.sin(phase));
