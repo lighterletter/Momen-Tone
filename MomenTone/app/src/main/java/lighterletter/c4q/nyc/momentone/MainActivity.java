@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    // TODO MODULATE VOLUME FOR QUANTIZED SOUND
 
     // sensormanager that gets registered with listeners
     SensorManager sensorManager;
@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         xResponseLV.append(x+"\n");
                         yResponseLV.append(y+"\n");
                         zResponseLV.append(z+"\n");
+
 //                        putThisAsFrequencyB = playNote(event.values[1]);
                     }
 
@@ -184,8 +185,9 @@ public class MainActivity extends AppCompatActivity {
     }
     // return note frequency
     public double playNote(float realtimeSensorValue) {
-
-        if (between(realtimeSensorValue,9,10)) {
+        if (between(realtimeSensorValue,11,10)) {
+            return GsAb*0.5;
+        } else if (between(realtimeSensorValue,9,10)) {
             return A;
         } else if (between(realtimeSensorValue,8,9)) {
             return AsBb;
