@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
     double putThisAsFrequencyA;
 
     // I LIKE 2 THREADS BUT FOR SIMPLICITY I'M GOING BACK TO ONE
-//    Thread audioThreadTwo;
-//    AudioTrack audioTrackTwo;
-//    double putThisAsFrequencyB;
+    Thread audioThreadTwo;
+    AudioTrack audioTrackTwo;
+    double putThisAsFrequencyB;
 
 
     private double A = 440.00;   // hz  "Concert A" A above middle C
@@ -85,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
                 // isRunning tells us if the audio is playing
                 if (!isRunning) {
                     setupThreadOne();
-//                    setupThreadTwo();
+                    setupThreadTwo();
                     audioThreadOne.start();
-//                    audioThreadTwo.start();
+                    audioThreadTwo.start();
                 }
 
             }
@@ -103,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
                     audioTrackOne.release();
                     audioThreadOne.interrupt();
                 }
-//                if (audioThreadTwo.isAlive() && !audioThreadTwo.isInterrupted() && isRunning) {
-//                    isRunning = false;
-//                    audioTrackTwo.stop();
-//                    audioTrackTwo.release();
-//                    audioThreadTwo.interrupt();
-//                }
+                if (audioThreadTwo.isAlive() && !audioThreadTwo.isInterrupted() && isRunning) {
+                    isRunning = false;
+                    audioTrackTwo.stop();
+                    audioTrackTwo.release();
+                    audioThreadTwo.interrupt();
+                }
             }
         });
 
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         yResponseLV.append(y+"\n");
                         zResponseLV.append(z+"\n");
 
-//                        putThisAsFrequencyB = playNote(event.values[1]);
+                        putThisAsFrequencyB = playNote(x);
                     }
 
                     last_x = x;
@@ -254,47 +254,47 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // setting up thread with audiotrack of frequency B
-//    public void setupThreadTwo() {
-//        audioThreadTwo = new Thread() {
-//            public void run() {
-//                // Update isRunning value
-//                isRunning = true;
-//                // SETTING UP THE AUDIO PARAMS
-//                int minimumBufferSize = AudioTrack.getMinBufferSize(
-//                        SAMPLE_RATE,
-//                        AudioFormat.CHANNEL_OUT_MONO,
-//                        AudioFormat.ENCODING_PCM_16BIT);
-//                audioTrackTwo = new AudioTrack(
-//                        AudioManager.STREAM_MUSIC,
-//                        SAMPLE_RATE,
-//                        AudioFormat.CHANNEL_OUT_MONO,
-//                        AudioFormat.ENCODING_PCM_16BIT,
-//                        minimumBufferSize,
-//                        AudioTrack.MODE_STREAM);
-//
-//                // SOUNDTRACK VARIABLES
-//                short[] audioDataSamples = new short[minimumBufferSize];
-//                int amplitude = 10000;
-//                double twoPi = 8. * Math.atan(1.);
-//                double frequency = 440.f;
-//                double phase = 0.0;
-//
-//                audioTrackTwo.play();
-//
-//                // synthesis loop
-//                while (isRunning) {
-//                    frequency = putThisAsFrequencyB;
-//                    for (int i = 0; i < minimumBufferSize; i++) {
-//                        audioDataSamples[i] = (short) (amplitude * Math.sin(phase));
-//                        phase += twoPi * frequency / SAMPLE_RATE;
-//                    }
-//                    audioTrackTwo.write(audioDataSamples, 0, minimumBufferSize);
-//                }
-//
-//            }
-//        };
-//    }
+//     setting up thread with audiotrack of frequency B
+    public void setupThreadTwo() {
+        audioThreadTwo = new Thread() {
+            public void run() {
+                // Update isRunning value
+                isRunning = true;
+                // SETTING UP THE AUDIO PARAMS
+                int minimumBufferSize = AudioTrack.getMinBufferSize(
+                        SAMPLE_RATE,
+                        AudioFormat.CHANNEL_OUT_MONO,
+                        AudioFormat.ENCODING_PCM_16BIT);
+                audioTrackTwo = new AudioTrack(
+                        AudioManager.STREAM_MUSIC,
+                        SAMPLE_RATE,
+                        AudioFormat.CHANNEL_OUT_MONO,
+                        AudioFormat.ENCODING_PCM_16BIT,
+                        minimumBufferSize,
+                        AudioTrack.MODE_STREAM);
+
+                // SOUNDTRACK VARIABLES
+                short[] audioDataSamples = new short[minimumBufferSize];
+                int amplitude = 10000;
+                double twoPi = 8. * Math.atan(1.);
+                double frequency = 440.f;
+                double phase = 0.0;
+
+                audioTrackTwo.play();
+
+                // synthesis loop
+                while (isRunning) {
+                    frequency = putThisAsFrequencyB;
+                    for (int i = 0; i < minimumBufferSize; i++) {
+                        audioDataSamples[i] = (short) (amplitude * Math.sin(phase));
+                        phase += twoPi * frequency / SAMPLE_RATE;
+                    }
+                    audioTrackTwo.write(audioDataSamples, 0, minimumBufferSize);
+                }
+
+            }
+        };
+    }
 
     // setting up thread with audiotrack of frequency A
     public void setupThreadOne() {
