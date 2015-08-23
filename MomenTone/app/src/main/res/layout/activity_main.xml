@@ -5,50 +5,11 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/main_start_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="start sound" />
-
-    <Button
-        android:id="@+id/main_stop_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="stop sound" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="X Responses:"/>
-    <TextView
-        android:gravity="bottom"
-        android:id="@+id/main_x_responses_lv"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="vertical"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Y Responses:"/>
-    <TextView
-        android:gravity="bottom"
-        android:id="@+id/main_y_responses_lv"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="vertical"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Z Responses:"/>
-    <TextView
-        android:gravity="bottom"
-        android:id="@+id/main_z_responses_lv"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="vertical"/>
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:onClick="accelerometerActivity"
+       android:text="start"/>
 
 
 </LinearLayout>
