@@ -26,6 +26,12 @@
         <activity
             android:name=".Accelerometer"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".Magnetometer"
+            android:screenOrientation="portrait" />
+        <activity android:name=".AudioSynthesis"/>
+        <activity android:name=".FingerSynthesis"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

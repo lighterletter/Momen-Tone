@@ -17,8 +17,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //at the moment we change through classes through changing the class here
     public void accelerometerActivity(View v){
-        Intent i = new Intent(this, Accelerometer.class);
+        Intent i = new Intent(this, FingerSynthesis.class);
         startActivity(i);
     }
 
