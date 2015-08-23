@@ -37,9 +37,10 @@ public class FingerSynthesis extends Activity implements View.OnTouchListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accelerometer);
         // THIS A TEST A
-        Accelerometer accelerometer = new Accelerometer();
         // THIS IS A TEST A
-        amplitude = baseAmplitude * accelerometer.x;
+        SensorUtils sensorUtils = new SensorUtils(getApplicationContext());
+
+
         View mainView = this.findViewById(R.id.MainView);
         mainView.setOnTouchListener(this);
         // CREATE THREAD AND SOUND

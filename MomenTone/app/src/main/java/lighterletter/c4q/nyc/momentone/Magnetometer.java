@@ -359,7 +359,7 @@ public class Magnetometer extends Activity implements SensorEventListener {
 //
 //
 //
-//// SETTING UP Accelerometer
+//// SETTING UP Acceleration
 //        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 //        sensorManager.registerListener(new SensorEventListener() {
 //                                           @Override
