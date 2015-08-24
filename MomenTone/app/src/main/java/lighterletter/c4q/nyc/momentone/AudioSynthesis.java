@@ -26,12 +26,12 @@ public class AudioSynthesis extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accelerometer);
+        setContentView(R.layout.activity_touch_synth);
 
-        startSound = (Button) this.findViewById(R.id.main_start_btn);
+        startSound = (Button) this.findViewById(R.id.touch_start_btn);
         startSound.setOnClickListener(this);
 
-        endSound = (Button) this.findViewById(R.id.main_stop_btn);
+        endSound = (Button) this.findViewById(R.id.touch_stop_btn);
         endSound.setOnClickListener(this);
 
         endSound.setEnabled(false);

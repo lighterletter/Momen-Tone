@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="lighterletter.c4q.nyc.momentone" >
+    package="lighterletter.c4q.nyc.momentone">
 
     <uses-feature
         android:name="android.hardware.sensor.accelerometer"
@@ -12,11 +12,19 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".AudioSynthesis" />
+
+        <activity
+            android:name=".TouchSynth"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,12 +32,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".Magnetometer"
-            android:screenOrientation="portrait" />
-        <activity android:name=".AudioSynthesis"/>
-        <activity android:name=".FingerSynthesis"
-            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

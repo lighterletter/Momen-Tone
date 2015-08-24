@@ -9,17 +9,12 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.Random;
-
-
 
 
 /**
@@ -28,116 +23,105 @@ import java.util.Random;
 public class Magnetometer extends Activity implements SensorEventListener {
 
 
-        //  <tpc(transplant code) imports
+    //  <tpc(transplant code) imports
 
-        Thread audioThread_One;
-        boolean isRunning = false;
+    Thread audioThread_One;
+    boolean isRunning = false;
 
-        SeekBar seekBar;
-        double seekbarValue;
+    SeekBar seekBar;
+    double seekbarValue;
 
-        AudioTrack audioTrack;
-        SensorManager sensorManager;
-
-
-        public static final int SAMPLE_RATE = 44100;
-        double X;
-        double noteValue;
+    AudioTrack audioTrack;
+    SensorManager sensorManager;
 
 
-        TextView axisValueTextView; // declare Z axis object
-        TextView xCoor;
-        TextView yCoor;
-        TextView ZCoor;
-        TextView noteText;
-
-        public static double A = 440.00;   // hz  "Concert A" A above middle C
-        private double AsBb = 466.16;   // hz: A#/Bb
-        private double B = 493.88;   // hz: B
-        private double C = 532.25;   // hz: C one octave higher than middle C
-        private double CsDb = 554.37;   // hz: C#/Db (C sharp/ D flat(minor))
-        private double D = 587.33;
-        private double DsEb = 622.25;
-        private double E = 659.26;
-        private double F = 698.46;
-        private double FsGb = 739.99;
-        private double G = 783.99;
-        private double GsAb = 830.61;
-        private double Aoc = 220;
-
-        private float degVal;
+    public static final int SAMPLE_RATE = 44100;
+    double X;
+    double noteValue;
 
 
-        //  /tcp>
+    TextView axisValueTextView; // declare Z axis object
+    TextView xCoor;
+    TextView yCoor;
+    TextView ZCoor;
+    TextView noteText;
 
-        // define the display assembly compass picture
-        private TextView image;
-        // record the compass picture angle turned
-        private double currentDegree;
-        // device sensor manager
-        private SensorManager mSensorManager;
-        TextView tvHeading;
-        TextView tvBarometer;
-        final NotePicker notePicker = new NotePicker();
+    public static double A = 440.00;   // hz  "Concert A" A above middle C
+    private double AsBb = 466.16;   // hz: A#/Bb
+    private double B = 493.88;   // hz: B
+    private double C = 532.25;   // hz: C one octave higher than middle C
+    private double CsDb = 554.37;   // hz: C#/Db (C sharp/ D flat(minor))
+    private double D = 587.33;
+    private double DsEb = 622.25;
+    private double E = 659.26;
+    private double F = 698.46;
+    private double FsGb = 739.99;
+    private double G = 783.99;
+    private double GsAb = 830.61;
+    private double Aoc = 220;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_accelerometer);
-            //
-            //image = (TextView) findViewById(R.id.main_stop_btn);
-            // TextView that will tell the user what degree is he heading
-            yCoor = (TextView) findViewById(R.id.ycoor);
-            // initialize your android device sensor capabilities
-            mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
-
-            noteText = (TextView) findViewById(R.id.note_text);
+    private float degVal;
 
 
-            xCoor = (TextView) findViewById(R.id.xcoor);
+    //  /tcp>
+
+    // define the display assembly compass picture
+    private TextView image;
+    // record the compass picture angle turned
+    private double currentDegree;
+    // device sensor manager
+    private SensorManager mSensorManager;
+    TextView tvHeading;
+    TextView tvBarometer;
+    final NotePicker notePicker = new NotePicker();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_touch_synth);
+        //
+        //image = (TextView) findViewById(R.id.main_stop_btn);
+        // TextView that will tell the user what degree is he heading
+        // initialize your android device sensor capabilities
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        //seekBar = (SeekBar) findViewById(R.id.main_textview);
+        //axisValueTextView = (TextView) findViewById(R.id.xCoor);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // for the system's orientation sensor registered listeners
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+                SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // to stop the listener and save battery
+        mSensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        // get the angle around the z-axis rotated
+        final double degree = event.values[0];
+        noteText.setText("A: " + noteValue + "Heading: " + degree + " degrees");
+        currentDegree = -degree;
 
 
-
-            //seekBar = (SeekBar) findViewById(R.id.main_textview);
-            //axisValueTextView = (TextView) findViewById(R.id.xCoor);
-
-        }
-
-        @Override
-        protected void onResume() {
-            super.onResume();
-            // for the system's orientation sensor registered listeners
-            mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
-                    SensorManager.SENSOR_DELAY_GAME);
-        }
-
-        @Override
-        protected void onPause() {
-            super.onPause();
-            // to stop the listener and save battery
-            mSensorManager.unregisterListener(this);
-        }
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            // get the angle around the z-axis rotated
-            final double degree = event.values[0];
-            noteText.setText("A: " + noteValue + "Heading: " + degree + " degrees");
-            currentDegree = -degree;
-
-
-
-            //tonal logic gate
-            // assign direction Values:
-            // x = 0
-            // y = 1
-            // z = 2
-            X = event.values[0];
+        //tonal logic gate
+        // assign direction Values:
+        // x = 0
+        // y = 1
+        // z = 2
+        X = event.values[0];
 //        Y = event.values[1];
 
 
-            xCoor.setText("X : " + String.valueOf(X));
+        xCoor.setText("X : " + String.valueOf(X));
 //
 //            if (degree > 0 && degree < 10) {
 //                // Tilted up so scroll down
@@ -206,88 +190,84 @@ public class Magnetometer extends Activity implements SensorEventListener {
 //            }
 
 
+        //transplant code. tone
+        //isRunning tells us if the audio is playing
+        // SETTING UP START BUTTON
+        findViewById(R.id.touch_start_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // isRunning tells us if the audio is playing
+                if (!isRunning) {
+                    audioThread_One = new Thread() {
 
-            //transplant code. tone
-            //isRunning tells us if the audio is playing
-            // SETTING UP START BUTTON
-            findViewById(R.id.main_start_btn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // isRunning tells us if the audio is playing
-                    if (!isRunning) {
-                        audioThread_One = new Thread() {
+                        public void run() {
+                            // Update isRunning value
+                            isRunning = true;
+                            // SETTING UP THE AUDIO PARAMS
+                            int minimumBufferSize = AudioTrack.getMinBufferSize(
+                                    SAMPLE_RATE,
+                                    AudioFormat.CHANNEL_OUT_STEREO,
+                                    AudioFormat.ENCODING_PCM_16BIT);
+                            audioTrack = new AudioTrack(
+                                    AudioManager.STREAM_MUSIC,
+                                    SAMPLE_RATE,
+                                    AudioFormat.CHANNEL_OUT_STEREO,
+                                    AudioFormat.ENCODING_PCM_16BIT,
+                                    minimumBufferSize,
+                                    AudioTrack.MODE_STREAM);//Look into MODE_STATIC decide if it's useful
 
-                            public void run() {
-                                // Update isRunning value
-                                isRunning = true;
-                                // SETTING UP THE AUDIO PARAMS
-                                int minimumBufferSize = AudioTrack.getMinBufferSize(
-                                        SAMPLE_RATE,
-                                        AudioFormat.CHANNEL_OUT_STEREO,
-                                        AudioFormat.ENCODING_PCM_16BIT);
-                                audioTrack = new AudioTrack(
-                                        AudioManager.STREAM_MUSIC,
-                                        SAMPLE_RATE,
-                                        AudioFormat.CHANNEL_OUT_STEREO,
-                                        AudioFormat.ENCODING_PCM_16BIT,
-                                        minimumBufferSize,
-                                        AudioTrack.MODE_STREAM);//Look into MODE_STATIC decide if it's useful
-
-                                // SOUNDTRACK VARIABLES
-                                short[] audioDataSamples = new short[minimumBufferSize];
-                                Random rn = new Random();
-                                int amplitude = 1000;//rn.nextInt(1000 - 100 + 1) + 100;//tremolo, for consistency add boolean that defaults to 1000 (to set tremolo, turn the min(300) into a variable).
-                                double twoPi = 8. * Math.atan(1.);
-                                double frequency = notePicker.NotePicker(currentDegree);
-                                double phase = 0.0;
-
+                            // SOUNDTRACK VARIABLES
+                            short[] audioDataSamples = new short[minimumBufferSize];
+                            Random rn = new Random();
+                            int amplitude = 1000;//rn.nextInt(1000 - 100 + 1) + 100;//tremolo, for consistency add boolean that defaults to 1000 (to set tremolo, turn the min(300) into a variable).
+                            double twoPi = 8. * Math.atan(1.);
+                            double frequency = notePicker.NotePicker(currentDegree);
+                            double phase = 0.0;
 
 
-                                audioTrack.play();
+                            audioTrack.play();
 
-                                // synthesis loop
-                                while (isRunning) {
+                            // synthesis loop
+                            while (isRunning) {
 //                                    frequency = ;
-                                    Log.v("notevalue: ", "nv: " + frequency);
-                                    for (int i = 0; i < minimumBufferSize; i++) {
-                                        audioDataSamples[i] = (short) (amplitude * Math.sin(phase));
-                                        phase += twoPi * frequency / SAMPLE_RATE;
-                                    }
-                                    audioTrack.write(audioDataSamples, 0, minimumBufferSize);
+                                Log.v("notevalue: ", "nv: " + frequency);
+                                for (int i = 0; i < minimumBufferSize; i++) {
+                                    audioDataSamples[i] = (short) (amplitude * Math.sin(phase));
+                                    phase += twoPi * frequency / SAMPLE_RATE;
                                 }
-
+                                audioTrack.write(audioDataSamples, 0, minimumBufferSize);
                             }
-                        };
-                        audioThread_One.start();
 
-                    }
-                } //onClick
-            });
-            findViewById(R.id.main_stop_btn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (audioThread_One.isAlive() && !audioThread_One.isInterrupted() && isRunning) {
-                        isRunning = false;
-                        audioTrack.stop();
-                        audioTrack.release();
-                        audioThread_One.interrupt();
-                        mSensorManager.unregisterListener(Magnetometer.this);
-
-                    }
+                        }
+                    };
+                    audioThread_One.start();
 
                 }
-            });
+            } //onClick
+        });
+        findViewById(R.id.touch_stop_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (audioThread_One.isAlive() && !audioThread_One.isInterrupted() && isRunning) {
+                    isRunning = false;
+                    audioTrack.stop();
+                    audioTrack.release();
+                    audioThread_One.interrupt();
+                    mSensorManager.unregisterListener(Magnetometer.this);
 
-        }
+                }
 
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-            // not in use
-        }
+            }
+        });
 
     }
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // not in use
+    }
 
+}
 
 
 //
