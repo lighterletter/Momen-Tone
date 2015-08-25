@@ -34,15 +34,32 @@
         android:layout_height="wrap_content"
         android:text="start"/>
 
-    <TextView
-        android:id="@+id/note_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <Button
         android:id="@+id/main_stop_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="stop"/>
+
+    <TextView
+        android:id="@+id/amplitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/frequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/lfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tone"
+        android:text="tone"
+        android:layout_gravity="center"/>
+
+
 
 </LinearLayout>

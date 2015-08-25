@@ -92,7 +92,7 @@ public class Magnetometer extends Activity implements SensorEventListener {
             mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
 
-            noteText = (TextView) findViewById(R.id.note_text);
+//            noteText = (TextView) findViewById(R.id.note_text);
 
 
             xCoor = (TextView) findViewById(R.id.xcoor);
