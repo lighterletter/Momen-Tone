@@ -10,15 +10,17 @@ import android.media.AudioTrack;
 public class SineThread extends Thread {
 
     private AudioTrack audioTrack;
-
     private boolean isRunning = false;
 
     private static final int SAMPLE_RATE = 44100;
 
-    private double frequency = 442;
+    double frequency = 417;
 
-    private int amplitude = 0;
+    private int amplitude = 10000;
 
+    double square_frequency = 528;
+    double light_frequency = 741;
+    double temperature_frequency=852;
 
     public SineThread() {
         super();
@@ -43,14 +45,38 @@ public class SineThread extends Thread {
 
         audioTrack.play();
 
-        double angle = 0;
+        double angleA = 0;
+        double angleB = 0;
+        double angleC = 0;
+        double angleD = 0;
 
         while (isRunning) {
+
             for (int i = 0; i < minimumBufferSize; i++) {
-                double angularFrequency = (float) (2 * Math.PI) * frequency / SAMPLE_RATE;
-                angle += angularFrequency;
-                audioDataSamples[i] = (short) (amplitude * ((float) Math.sin(angle)));
+                // instead of two pi try 3 pi
+                double angularFrequencyA = (float) (2 * Math.PI) * frequency / SAMPLE_RATE;
+
+                angleA += angularFrequencyA;
+                // instead of sine use cosine
+                short a = (short) (amplitude * ((float) Math.sin(angleA)));
+                double angularFrequencyB = (float) (2 * Math.PI) * square_frequency / SAMPLE_RATE;
+                angleB += angularFrequencyB;
+                short b = (short) (amplitude * ((float) Math.sin(angleB)));
+
+
+                double angularFrequencyC = (float) (2 * Math.PI) * light_frequency / SAMPLE_RATE;
+                angleC += angularFrequencyC;
+                short c = (short) (amplitude * ((float) Math.sin(angleC)));
+
+                double angularFrequencyD = (float) (2 * Math.PI) * temperature_frequency / SAMPLE_RATE;
+                angleD += angularFrequencyD;
+                short d = (short) (amplitude * ((float) Math.sin(angleD)));
+
+                audioDataSamples[i] = (short)(a+b+c);
             }
+
+
+
             audioTrack.write(audioDataSamples, 0, minimumBufferSize);
         }
     }
@@ -58,7 +84,6 @@ public class SineThread extends Thread {
 
     @Override
     public synchronized void start() {
-        isRunning = true;
         super.start();
     }
 

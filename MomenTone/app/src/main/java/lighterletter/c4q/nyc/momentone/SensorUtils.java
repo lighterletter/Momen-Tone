@@ -9,92 +9,91 @@ import android.hardware.SensorManager;
 /**
  * Created by gsyrimis on 8/23/15.
  */
+
 public class SensorUtils {
 
 
     SensorManager sensorManager;
 
-    Acceleration acceleration;
-    Light light;
-    Temperature temperature;
-    Pressure pressure;
-    Humidity humidity;
-    Magnetic magnetic;
+    private Acceleration acceleration;
+    private Light light;
+    private Temperature temperature;
+    private Pressure pressure;
+    private Humidity humidity;
+    private Magnetic magnetic;
 
     public SensorUtils(Context ctx) {
         this.sensorManager = (SensorManager) ctx.getSystemService(ctx.SENSOR_SERVICE);
     }
 
-    public SensorManager getSensorManager() {
-        return sensorManager;
-    }
 
-    public Acceleration getAcceleration() {
-        return acceleration;
-    }
-
-    public Light getLight() {
-        return light;
-    }
-
-    public Temperature getTemperature() {
-        return temperature;
-    }
-
-    public Pressure getPressure() {
-        return pressure;
-    }
-
-    public Humidity getHumidity() {
-        return humidity;
-    }
-
-    public Magnetic getMagnetic() {
-        return magnetic;
-    }
-
-    public void addAcceleration() {
+    public float[] getAcceleration() {
         this.acceleration = new Acceleration();
         this.sensorManager.registerListener(this.acceleration,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
+        return new float[]{acceleration.x, acceleration.y, acceleration.z};
     }
 
-    public void addLight() {
+    public float getLight() {
         this.light = new Light();
         this.sensorManager.registerListener(this.light,
                 sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
                 SensorManager.SENSOR_DELAY_NORMAL);
+        return light.light;
     }
 
-    public void addTemperature(){
+    public float getTemperature() {
         this.temperature = new Temperature();
         this.sensorManager.registerListener(this.temperature,
                 sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE),
                 SensorManager.SENSOR_DELAY_NORMAL);
+        return temperature.temperature;
     }
 
-    public void addPressure(){
+    public float getPressure() {
         this.pressure = new Pressure();
         this.sensorManager.registerListener(this.pressure,
                 sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE),
                 SensorManager.SENSOR_DELAY_NORMAL);
+        return pressure.pressure;
     }
 
-    public void addHumidity(){
+    public float getHumidity() {
         this.humidity = new Humidity();
         this.sensorManager.registerListener(this.humidity,
                 sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY),
                 SensorManager.SENSOR_DELAY_NORMAL);
+        return humidity.humidity;
     }
 
-    public void addMagnetic(){
+    public float[] getMagnetic() {
+
         this.magnetic = new Magnetic();
-        this.sensorManager.registerListener(this.magnetic,
+        this.sensorManager.registerListener(new SensorEventListener() {
+                                                @Override
+                                                public void onSensorChanged(SensorEvent event) {
+//                                                    x = event.values[0];
+//                                                    y = event.values[1];
+//                                                    z = event.values[2];
+                                                }
+
+                                                @Override
+                                                public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+                                                }
+                                            },
                 sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
                 SensorManager.SENSOR_DELAY_NORMAL);
+        return new float[]{magnetic.x, magnetic.y, magnetic.z};
     }
-    private class Magnetic implements SensorEventListener{
+
+
+
+
+
+
+    private class Magnetic implements SensorEventListener {
         float x;
         float y;
         float z;
@@ -102,9 +101,9 @@ public class SensorUtils {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-                z = event.values[2];
                 x = event.values[0];
                 y = event.values[1];
+                z = event.values[2];
             }
         }
 
@@ -114,7 +113,7 @@ public class SensorUtils {
         }
     }
 
-    private class Humidity implements SensorEventListener{
+    private class Humidity implements SensorEventListener {
         float humidity;
 
         @Override
@@ -130,7 +129,7 @@ public class SensorUtils {
         }
     }
 
-    private class Pressure implements SensorEventListener{
+    private class Pressure implements SensorEventListener {
         float pressure;
 
         public Pressure() {
@@ -149,7 +148,7 @@ public class SensorUtils {
         }
     }
 
-    private class Temperature implements SensorEventListener{
+    private class Temperature implements SensorEventListener {
         float temperature;
 
         public Temperature() {

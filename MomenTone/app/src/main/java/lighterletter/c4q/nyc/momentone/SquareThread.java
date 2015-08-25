@@ -7,7 +7,7 @@ import android.media.AudioTrack;
 /**
  * Created by gsyrimis on 8/23/15.
  */
-public class SquareThread extends Thread{
+public class SquareThread extends Thread {
     private AudioTrack audioTrack;
 
     private boolean isRunning = false;
@@ -44,7 +44,7 @@ public class SquareThread extends Thread{
 
         while (isRunning) {
             for (int i = 0; i < minimumBufferSize; i++) {
-                double angularFrequency = (frequency % 300) < 100 ? 600 : 0;
+                double angularFrequency = (frequency % 3) < 1 ? 3 : 0;
                 angle += angularFrequency;
                 audioDataSamples[i] = (short) (amplitude * ((float) Math.cos(angle)));
             }
@@ -54,10 +54,8 @@ public class SquareThread extends Thread{
     }
 
 
-
     @Override
     public synchronized void start() {
-        isRunning = true;
         super.start();
     }
 

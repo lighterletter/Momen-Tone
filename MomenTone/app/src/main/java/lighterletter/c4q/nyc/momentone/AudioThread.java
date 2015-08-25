@@ -43,7 +43,9 @@ public class AudioThread extends Thread {
                 minimumBufferSize,
                 AudioTrack.MODE_STREAM);
         audioDataSamples = new short[minimumBufferSize];
+
         audioTrack.play();
+
         while (isRunning) {
             for (int i = 0; i < minimumBufferSize; i++) {
                 angular_frequency = (float) (2 * Math.PI) * frequency / SAMPLE_RATE;
