@@ -14,13 +14,13 @@ public class SineThread extends Thread {
 
     private static final int SAMPLE_RATE = 44100;
 
-    double frequency = 417;
+    double A_freq = 420; //A
 
     private int amplitude = 10000;
 
-    double square_frequency = 528;
-    double light_frequency = 741;
-    double temperature_frequency=852;
+    double C_square = 532.25;   //C
+    double D_light_frequency = 587.33;    //D
+    double Af_temperature_frequency = 880; //A
 
     public SineThread() {
         super();
@@ -54,23 +54,22 @@ public class SineThread extends Thread {
 
             for (int i = 0; i < minimumBufferSize; i++) {
                 // instead of two pi try 3 pi
-                double angularFrequencyA = (float) (2 * Math.PI) * frequency / SAMPLE_RATE;
+                double angularFrequencyA = (float) (2 * Math.PI) * A_freq / SAMPLE_RATE;
 
                 angleA += angularFrequencyA;
                 // instead of sine use cosine
                 short a = (short) (amplitude * ((float) Math.sin(angleA)));
-                double angularFrequencyB = (float) (2 * Math.PI) * square_frequency / SAMPLE_RATE;
+                double angularFrequencyB = (float) (2 * Math.PI) * C_square / SAMPLE_RATE;
                 angleB += angularFrequencyB;
                 short b = (short) (amplitude * ((float) Math.sin(angleB)));
 
-
-                double angularFrequencyC = (float) (2 * Math.PI) * light_frequency / SAMPLE_RATE;
+                double angularFrequencyC = (float) (2 * Math.PI) * D_light_frequency / SAMPLE_RATE;
                 angleC += angularFrequencyC;
                 short c = (short) (amplitude * ((float) Math.sin(angleC)));
-
-                double angularFrequencyD = (float) (2 * Math.PI) * temperature_frequency / SAMPLE_RATE;
-                angleD += angularFrequencyD;
-                short d = (short) (amplitude * ((float) Math.sin(angleD)));
+//
+//                double angularFrequencyD = (float) (2 * Math.PI) * Af_temperature_frequency / SAMPLE_RATE;
+//                angleD += angularFrequencyD;
+//                short d = (short) (amplitude * ((float) Math.sin(angleD)));
 
                 audioDataSamples[i] = (short)(a+b+c);
             }
@@ -88,7 +87,7 @@ public class SineThread extends Thread {
     }
 
     public void setFrequency(double frequency) {
-        this.frequency = frequency;
+        this.A_freq = frequency;
     }
 
     public boolean isRunning() {
@@ -100,7 +99,7 @@ public class SineThread extends Thread {
     }
 
     public double getFrequency() {
-        return frequency;
+        return A_freq;
     }
 
     public int getAmplitude() {

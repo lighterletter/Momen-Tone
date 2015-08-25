@@ -6,7 +6,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -40,9 +39,9 @@ public class TouchSynth extends Activity {
         sensorManager.registerListener(new SensorEventListener() {
                                            @Override
                                            public void onSensorChanged(SensorEvent event) {
-                                               trackOne.frequency = event.values[0] * 40;
+                                               trackOne.A_freq = event.values[0] * 40;
 //                                               y = event.values[1];
-                                               trackOne.square_frequency = event.values[2]*36;
+                                               trackOne.C_square = event.values[2]*36;
                                            }
 
                                            @Override
@@ -56,7 +55,7 @@ public class TouchSynth extends Activity {
         sensorManager.registerListener(new SensorEventListener() {
                                            @Override
                                            public void onSensorChanged(SensorEvent event) {
-                                               trackOne.light_frequency = event.values[0] * 7;
+                                               trackOne.D_light_frequency = event.values[0] * 7;
                                            }
 
                                            @Override
@@ -69,7 +68,7 @@ public class TouchSynth extends Activity {
         sensorManager.registerListener(new SensorEventListener() {
                                            @Override
                                            public void onSensorChanged(SensorEvent event) {
-                                               trackOne.light_frequency = event.values[0] * 11;
+                                               trackOne.D_light_frequency = event.values[0] * 11;
                                            }
 
                                            @Override
@@ -97,7 +96,7 @@ public class TouchSynth extends Activity {
             @Override
             public void onClick(View v) {
                 if (trackOne.isRunning()) {
-                    trackOne.kill();
+                    trackOne.isInterrupted();
                 }
 
 
