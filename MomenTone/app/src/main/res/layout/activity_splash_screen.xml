@@ -12,7 +12,7 @@
     <ImageView
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:src="@drawable/whitelogoresize2"
+        android:src="@drawable/whitelogoresize3"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
 
