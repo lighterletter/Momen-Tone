@@ -30,7 +30,6 @@
         <activity
             android:name=".Magnetometer"
             android:screenOrientation="portrait" />
-        <activity android:name=".AudioSynthesis"/>
         <activity android:name=".stepCounter"
             android:screenOrientation="portrait"/>
     </application>
