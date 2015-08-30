@@ -31,26 +31,7 @@ public class stepCounter extends Activity implements SensorEventListener {
     double ph = 0.0;
     final int SAMPLE_RATE = 44100;
 
-    //frequencies
-    double fr_a6 = 1760.00;
-    double fr_g6 = 1567.98;
-    double fr_e6 = 1318.51;
-    double fr_d6 = 1174.66;
-    double fr_b5 = 897.767;
-    double fr_g5 = 783.991;
-    double fr_c5 = 523.251;
-    double fr_b4 = 493.883;
-    double fr_a4 = 440.f;
-    double fr_g4 = 391.995;
-    double fr_e4 = 329.628;
-    double fr_a3 = 220.f;
-    double fr_a1 = 55.f;
-    double fr_g1 = 48.994;
-    double fr_e1 = 41.2034;
-    //double clean = 00.00;
-
     // C Major scale 3 octaves    c d,e,f,g,a,b,c
-
     double c6 = 1046.50;
     double b5 = 987.767;
     double a5 = 880.f;
@@ -61,11 +42,11 @@ public class stepCounter extends Activity implements SensorEventListener {
     double c5 = 523.251;
     double b4 = 493.883;
     double a4 = 440.f;
-        double g4 = 391.995;
+    double g4 = 391.995;
     double f4 = 349.228;
-        double e4 = 329.628;
+    double e4 = 329.628;
     double d4 = 293.665;
-        double c4 = 261.626;
+    double c4 = 261.626;
     double b3 = 246.942;
     double a3 = 220.f;
     double g3 = 195.998;
@@ -78,6 +59,7 @@ public class stepCounter extends Activity implements SensorEventListener {
     double fr_1;
     double fr_2;
     double fr_3;
+    double fr_4;
 
     TextView xCoor;
     TextView yCoor;
@@ -87,14 +69,15 @@ public class stepCounter extends Activity implements SensorEventListener {
     float y;
     float z;
 
-    List<Double> customList;
     List<Double> C_Major;
 
     AudioSynthesisTask audioSynth;
-    AudioSynthesisTask lowAudioSynth;
+
     boolean play_one = false;
     boolean play_two = false;
     boolean play_three = false;
+    boolean play_low = false;
+    boolean play_all = false;
 
     private double shuffleArray(List<Double> list) {
         int index = (int) (Math.random() * list.size());
@@ -106,22 +89,6 @@ public class stepCounter extends Activity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accelerometer);
-        customList = new ArrayList<>();
-        customList.add(fr_a6);
-        customList.add(fr_g6);
-        customList.add(fr_e6);
-        customList.add(fr_d6);
-        customList.add(fr_b5);
-        customList.add(fr_g5);
-        customList.add(fr_c5);
-        customList.add(fr_b4);
-        customList.add(fr_a4);
-        customList.add(fr_g4);
-        customList.add(fr_e4);
-        customList.add(fr_a3);
-        customList.add(fr_a1);
-        customList.add(fr_g1);
-        customList.add(fr_e1);
 
         C_Major = new ArrayList<>();
         C_Major.add(c6);
@@ -147,12 +114,13 @@ public class stepCounter extends Activity implements SensorEventListener {
         C_Major.add(d3);
         C_Major.add(c3);
 
+        xCoor = (TextView) findViewById(R.id.xcoor);
+        yCoor = (TextView) findViewById(R.id.ycoor);
+        zCoor = (TextView) findViewById(R.id.zcoor);
+
         //customList.add(clean);
         audioSynth = new AudioSynthesisTask();
         audioSynth.execute();
-
-        lowAudioSynth = new AudioSynthesisTask();
-        lowAudioSynth.execute();
 
 
         stop = (Button) findViewById(R.id.main_stop_btn);
@@ -172,9 +140,12 @@ public class stepCounter extends Activity implements SensorEventListener {
                 play_one = true;
                 play_two = true;
                 play_three = true;
-                fr_1 = a4;
-                fr_2 = f4;
-                fr_3 = d4;
+                for (int i = 0; i < Math.random() * 5; i++) {
+                    fr_1 = shuffleArray(C_Major);
+                    fr_2 = shuffleArray(C_Major);
+                    fr_3 = shuffleArray(C_Major);
+                }
+
             }
         });
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -183,16 +154,29 @@ public class stepCounter extends Activity implements SensorEventListener {
                                            public void onSensorChanged(SensorEvent event) {
 
                                                if (event.values[0] >= 1) {
-                                                   play_one = true;
-                                                   play_two = true;
-                                                   play_three = true;
-                                                   fr_1 = shuffleArray(C_Major);
-                                                fr_2 = shuffleArray(C_Major);
-                                               fr_3 = shuffleArray(C_Major);
+
+                                                   long runningTime = System.currentTimeMillis();
+
+                                                   long currTime = runningTime - System.currentTimeMillis();
+
+                                                   Log.v("currtime", "" + currTime);
+
+                                                   for (int i = 0; i < currTime; i++) {
+                                                       play_all = true;
+                                                       //Track switches
+//                                                       play_one = true;
+//                                                       play_two = true;
+//                                                       play_three = true;
+                                                       //set frequencies
+                                                       fr_1 = a4;
+                                                       fr_2 = f4;
+                                                       fr_3 = d4;
+//                                                       play_one = false;
+//                                                       play_two = false;
+//                                                       play_three = false;
+//                                                       play_all = false;
+                                                   }
                                                }
-                                               play_one = false;
-                                               play_two = false;
-                                               play_three = false;
                                                Log.v("this is pedometer: ", "" + event.values[0]);
                                            }
 
@@ -202,16 +186,15 @@ public class stepCounter extends Activity implements SensorEventListener {
                                        },
                 sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR),
                 SensorManager.SENSOR_DELAY_NORMAL);
-
         sensorManager.registerListener(new SensorEventListener() {
                                            @Override
                                            public void onSensorChanged(SensorEvent event) {
-
 //                                               play = true;
 //                                               fr_1 = shuffleArray(C_Major);
 //                                               play = false;
                                                //}
-                                               for (int i=0; i< event.values[0] % Math.random(); i++ ) {
+
+                                               for (int i = 0; i < event.values[0] % Math.random(); i++) {
                                                    play_one = true;
                                                    play_two = true;
                                                    play_three = true;
@@ -230,59 +213,39 @@ public class stepCounter extends Activity implements SensorEventListener {
                                            }
                                        }, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
                 SensorManager.SENSOR_DELAY_NORMAL);
-
-
         sensorManager.registerListener(new SensorEventListener() {
                                            @Override
                                            public void onSensorChanged(SensorEvent event) {
-
                                                x = event.values[0];
                                                y = event.values[1];
                                                z = event.values[2];
 
-                                               if (x > 3 || x < -3) {
-                                                   play_one = true;
-                                                   play_two = true;
-                                                   play_three = true;
-                                               fr_1 = shuffleArray(C_Major);
-                                               fr_2 = shuffleArray(C_Major);
-                                                   fr_3 = shuffleArray(C_Major);
-                                               } else if (x>3) {
+                                               if (x > 3.f || x < -3.f || z < 9.f) {
+//                                                   play_one = true;
+//                                                   play_two = true;
+//                                                   play_three = true;
+//                                                   fr_1 = shuffleArray(C_Major);
+//                                                   fr_2 = shuffleArray(C_Major);
+//                                                   fr_3 = shuffleArray(C_Major);
+                                               } else if (x > 4) {
                                                    play_one = false;
                                                    play_two = false;
                                                    play_three = false;
                                                }
                                                play_one = false;
-//
-//                                               if (x >= 2 || x < -2) {
-//                                                   play = true;
-//                                                   fr_1 = shuffleArray(C_Major);
-//                                                   fr_2 = shuffleArray(customList);
-//                                                   fr_3 = shuffleArray(C_Major);
-//                                               } else if (y > 3 || y < -3){
-//                                                   fr_1 = fr_a6;
-//                                               }
-//                                               else
-//                                                   play = false;
 
-//
 //                                               if (y >= 3 || y < -3) {
-//                                                   fr_1 = 55.f;
+//                                                   fr_1 = shuffleArray(C_Major);
 //                                                   fr_2 = shuffleArray(C_Major);
 //                                                   fr_3 = shuffleArray(C_Major);
-//                                               } else if (z < 8) {
-//                                                   fr_1 = shuffleArray(C_Major);//a
-//                                                   fr_2 = 48.994;
-//                                                   fr_3 = shuffleArray(C_Major);
-//                                               } else if (z<3) {
-//                                                   fr_1 = shuffleArray(C_Major);//a
-//                                                   fr_2 = shuffleArray(C_Major);
-//                                                   fr_3 = 41.2034;
-//                                               }  else {
-//                                                   play = false;
+//                                               }
+//                                               else {
+////                                                   amp = (int) Math.random() * 1000;
 //                                               }
 
-
+                                               xCoor.setText("" + x);
+                                               yCoor.setText("" + y);
+                                               zCoor.setText("" + z);
                                            }
 
                                            @Override
@@ -290,18 +253,20 @@ public class stepCounter extends Activity implements SensorEventListener {
                                            }
                                        }, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
-//        sensorManager.registerListener(new SensorEventListener() {
-//                                           @Override
-//                                           public void onSensorChanged(SensorEvent event) {
-//                                           }
-//                                           @Override
-//                                           public void onAccuracyChanged(Sensor sensor, int accuracy) {
-//                                           }
-//                                       }, sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE),
-//                SensorManager.SENSOR_DELAY_NORMAL);
-        xCoor = (TextView) findViewById(R.id.xcoor);
-        yCoor = (TextView) findViewById(R.id.ycoor);
-        zCoor = (TextView) findViewById(R.id.zcoor);
+        sensorManager.registerListener(new SensorEventListener() {
+                                           @Override
+                                           public void onSensorChanged(SensorEvent event) {
+                                               play_low = true;
+                                               fr_4 = 220.f;
+
+                                           }
+
+                                           @Override
+                                           public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                                           }
+                                       }, sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE),
+                SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override
@@ -337,27 +302,39 @@ public class stepCounter extends Activity implements SensorEventListener {
             AudioTrack audioTrack2 = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short samples2[] = new short[buffSize];
             audioTrack2.play();
+
+            AudioTrack lowAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
+            short lowSamples[] = new short[buffSize];
+            lowAudioTrack.play();
             while (true) {
-                if (play_one) {//On touch
+
+                if (play_one || play_all) {//On touch
                     for (int l = 0; l < buffSize; l++) {
                         samples[l] = (short) (amp * Math.sin(ph));
                         ph += twoPi * fr_1 / SAMPLE_RATE;
                     }
                     audioTrack.write(samples, 0, buffSize);
                 }
-                if (play_two){
+                if (play_two || play_all) {
                     for (int j = 0; j < buffSize; j++) {
                         samples1[j] = (short) (amp * Math.sin(ph));
                         ph += twoPi * fr_2 / SAMPLE_RATE;
                     }
                     audioTrack1.write(samples1, 0, buffSize);
                 }
-                if (play_three){
+                if (play_three || play_all) {
                     for (int n = 0; n < buffSize; n++) {
                         samples2[n] = (short) (amp * Math.sin(ph));
                         ph += twoPi * fr_3 / SAMPLE_RATE;
                     }
                     audioTrack2.write(samples2, 0, buffSize);
+                }
+                if (play_low || play_all) {
+                    for (int n = 0; n < buffSize; n++) {
+                        samples2[n] = (short) (amp * Math.sin(ph));
+                        ph += twoPi * fr_4 / SAMPLE_RATE;
+                    }
+                    lowAudioTrack.write(lowSamples, 0, buffSize);
                 }
             }
         }
