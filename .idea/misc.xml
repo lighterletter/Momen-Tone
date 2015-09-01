@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
+=======
+  <component name="ProjectDictionaryState">
+    <dictionary name="c4q-john" />
+  </component>
+>>>>>>> john
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
@@ -15,7 +21,11 @@
     <states>
       <state key="ProjectJDKs.UI">
         <settings>
+<<<<<<< HEAD
           <last-edited>1.8</last-edited>
+=======
+          <last-edited>1.7</last-edited>
+>>>>>>> john
           <splitter-proportions>
             <option name="proportions">
               <list>

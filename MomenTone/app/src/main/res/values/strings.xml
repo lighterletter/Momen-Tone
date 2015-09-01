@@ -1,10 +1,14 @@
 <resources>
-    <string name="app_name">MomenTone</string>
+    <string name="app_name">Momentune</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
     <string name="title_activity_visualizer">Visualizer</string>
     <string name="title_activity_visis">Visis</string>
     <string name="title_activity_visualizer_view">VisualizerView</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
+
+    <string name="title_activity_xaxis">XaxisActivity</string>
+
 </resources>
