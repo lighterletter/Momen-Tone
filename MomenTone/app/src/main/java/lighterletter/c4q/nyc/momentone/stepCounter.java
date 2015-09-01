@@ -27,7 +27,7 @@ public class stepCounter extends Activity implements SensorEventListener {
     Button start;
 
     //waveform
-    int amp = 5000;
+    int amp = 10000;
     double twoPi = 8. * Math.atan(1.);
     double fr = 440;
     double ph = 0.0;
@@ -242,18 +242,21 @@ public class stepCounter extends Activity implements SensorEventListener {
 ////                                                   }
 
                 if (y >= 2 || y <= -2) {
-
+//
                     for (int i = 0; i < event.values[0] % Math.random(); i++) {
-                    play_one = true;
-                    play_two = true;
-                    play_three = true;
-                    fr_1 = shuffleArray(pentatonic1);
-                    fr_2 = shuffleArray(pentatonic1);
-                    fr_3 = shuffleArray(pentatonic1);
+                        play_one = true;
+//                    play_two = true;
+//                    play_three = true;
+                        fr_1 = shuffleArray(pentatonic_0);
+//                    fr_2 = shuffleArray(pentatonic1);
+//                    fr_3 = shuffleArray(pentatonic1);
+                    }
+                    //else{
+//                    play_one = false;
+                    //}
                 }
-                play_one = false;
-                play_two = false;
-                play_three = false;
+//                play_two = false;
+//                play_three = false;
 
 //                Log.v("SensorDetect: ", "This is light: " + event.values[0]);
                 }
@@ -277,7 +280,7 @@ public class stepCounter extends Activity implements SensorEventListener {
             //  } else {
             // No accelerometer
             //     Log.v("SensorDetect: ", "No Pedometer");
-                 }
+                 //}
         } else {
         }
     }
