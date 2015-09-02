@@ -11,16 +11,22 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class stepCounter extends Activity implements SensorEventListener {
+import lighterletter.c4q.nyc.momentone.Views.DrawingView;
+
+public class stepCounter extends Activity implements SensorEventListener, View.OnTouchListener  {
 
     SensorManager sensorManager;
     Button stop;
@@ -100,14 +106,29 @@ public class stepCounter extends Activity implements SensorEventListener {
         return list.get(index);
     }
 
+    //draw instance vars
+    //represents the instance of the custom VIew that we added to the layout.
+    DrawingView drawView;
+    //paint color button in the pallete
+    ImageButton currPaint;
+    //need layout that contains button to retrieve the first paint color in the palette.
+    LinearLayout paintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //drawing
+        drawView = (DrawingView) findViewById(R.id.drawing);
+        paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
+        //get the first button and store it as the instance variable:
+        currPaint = (ImageButton) paintLayout.getChildAt(0);
+        // sets alternate options for when the button is pressed.
+        currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint_pressed));
 
-        //
+
+        //music
         pentatonic1 = new ArrayList<>();
 //        pentatonic1.add(c6);
 //        pentatonic1.add(b5);
@@ -148,6 +169,9 @@ public class stepCounter extends Activity implements SensorEventListener {
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
 
+//        View touchView = this.findViewById(R.id.drawing);
+//        touchView.setOnTouchListener(this);
+
         //Play-Pause button.
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         final PlayPauseDrawable mPlayPauseDrawable = new PlayPauseDrawable(60, 0XFF101840, 0XFFffffff, 300);
@@ -155,9 +179,13 @@ public class stepCounter extends Activity implements SensorEventListener {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayPauseDrawable.toggle();
+                //  xor operator: ( ^= )  is 12% percent faster, and more efficient than
+                // other alternatives like: bool = !bool; or bool = bool ? false : true;
+
+                //toggles sound
                 sensor_state ^= true;
-//                step_registered ^= true;
+
+                mPlayPauseDrawable.toggle();
 
             }
         });
@@ -172,9 +200,54 @@ public class stepCounter extends Activity implements SensorEventListener {
         play_two = false;
         play_three = false;
         finish();
+        sensor_state = false;
 
     }
+    //inserted from Main activity to quickly test compatibility. No
+    public void paintClicked(View view){
+        //use chosen color
+        if (view != currPaint){
+            //update color
+            ImageButton imgView = (ImageButton)view;
+            String color = view.getTag().toString();
+            //after receiving the color tag call setColor method in DrawingView  on the custom drawing View Object:
+            drawView.setColor(color);
+            //update UI to reflect chosen color and reset previous one
+            imgView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint_pressed));
+            currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint));
+            currPaint = (ImageButton) view;
+        }
+    }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        int action = event.getAction();
+        switch (action)
+        {
+            case MotionEvent.ACTION_DOWN:
+                play_one = true;
+                fr_1 = event.getX(); //pitch
+                amp = (int)event.getY();//volume
+                Log.v("FREQUENCY", ""+fr_1);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                play_all = true;
+                fr_1 = event.getX();
+                amp = (int) event.getY();//
+                Log.v("FREQUENCY", ""+fr_1);
+                break;
+            case MotionEvent.ACTION_UP:
+                play_all = false;
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    //regular code resumes
     @Override
     public void onSensorChanged(SensorEvent event) {
         //pedometer
@@ -282,8 +355,11 @@ public class stepCounter extends Activity implements SensorEventListener {
             //     Log.v("SensorDetect: ", "No Pedometer");
                  //}
         } else {
+            //no accelerometer
         }
     }
+    //event listener for drawing portion. This belongs here.
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -315,8 +391,6 @@ public class stepCounter extends Activity implements SensorEventListener {
             AudioTrack steptrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short stepsamples[] = new short[buffSize];
             steptrack.play();
-
-
 
 
 

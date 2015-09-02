@@ -10,16 +10,221 @@
     tools:context=".MainActivity">
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:onClick="accelerometerActivity"-->
-        <!--android:text="start"/>-->
+    <!--TODO: Material design: install toolbar with appropriate buttons. (this is as is for functionality)-->
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#FFCCCCCC"
+        android:orientation="vertical">
+        <!--where our buttons for starting a new drawing, selecting a brush, and an eraser are.
+        (This is subject to change based on design snackbar/nav drawer)-->
+
+        <!--TODO: unless you create your own icons credit their origin: http://www.flaticon.com/ -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+
+            <ImageButton
+                android:id="@+id/new_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/start_new"
+                android:src="@drawable/ic_new_file_white_24dp" />
+
+            <ImageButton
+                android:id="@+id/draw_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/brush"
+                android:src="@drawable/ic_brush_white_32px" />
+
+            <ImageButton
+                android:id="@+id/erase_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/erase"
+                android:src="@drawable/ic_eraser2_white32" />
+
+            <ImageButton
+                android:id="@+id/save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/save"
+                android:src="@drawable/ic_save_file_white_32px" />
+
+        </LinearLayout>
+        <!--change drawing id to "canvas"-->
+        <lighterletter.c4q.nyc.momentone.Views.DrawingView
+            android:id="@+id/drawing"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="#FFFFFFFF" />
+
+        <!-- color palette, TODO: think about design. Where and how to implement best.
+        Do we move this to a nav drawer/ or put the brush on the top control panel?  -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+            <!-- Top Row -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/paint_colors"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FF660000"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FF660000" />
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FFFF0000"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FFFF0000" />
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FFFF6600"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FFFF6600" />
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FFFFCC00"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FFFFCC00" />
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FF009900"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FF009900" />
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FF009999"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FF009999" />
+
+            </LinearLayout>
+            <!-- Bottom Row -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FF0000FF"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FF0000FF" />
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FF990099"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FF990099" />
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FFFF6666"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FFFF6666" />
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FFFFFFFF"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FFFFFFFF" />
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FF787878"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FF787878" />
+
+                <ImageButton
+                    android:layout_width="@dimen/large_brush"
+                    android:layout_height="@dimen/large_brush"
+                    android:layout_margin="2dp"
+                    android:background="#FF000000"
+                    android:contentDescription="@string/paint"
+                    android:onClick="paintClicked"
+                    android:src="@drawable/paint"
+                    android:tag="#FF000000" />
+
+            </LinearLayout>
+            <!-- The first row has an ID because we'll use Java to set the first default color
+                Change the colors if you want but make sure you use the same color value in the
+                background and tag attributes for each button -->
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
 </RelativeLayout>
 
