@@ -1,7 +1,6 @@
 package lighterletter.c4q.nyc.momentone;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -13,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -24,9 +22,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import lighterletter.c4q.nyc.momentone.Views.DrawingView;
+public class stepCounter extends Activity implements SensorEventListener  {
 
-public class stepCounter extends Activity implements SensorEventListener, View.OnTouchListener  {
 
     SensorManager sensorManager;
     Button stop;
@@ -204,48 +201,48 @@ public class stepCounter extends Activity implements SensorEventListener, View.O
 
     }
     //inserted from Main activity to quickly test compatibility. No
-    public void paintClicked(View view){
-        //use chosen color
-        if (view != currPaint){
-            //update color
-            ImageButton imgView = (ImageButton)view;
-            String color = view.getTag().toString();
-            //after receiving the color tag call setColor method in DrawingView  on the custom drawing View Object:
-            drawView.setColor(color);
-            //update UI to reflect chosen color and reset previous one
-            imgView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint_pressed));
-            currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint));
-            currPaint = (ImageButton) view;
-        }
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int action = event.getAction();
-        switch (action)
-        {
-            case MotionEvent.ACTION_DOWN:
-                play_one = true;
-                fr_1 = event.getX(); //pitch
-                amp = (int)event.getY();//volume
-                Log.v("FREQUENCY", ""+fr_1);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                play_all = true;
-                fr_1 = event.getX();
-                amp = (int) event.getY();//
-                Log.v("FREQUENCY", ""+fr_1);
-                break;
-            case MotionEvent.ACTION_UP:
-                play_all = false;
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                break;
-            default:
-                break;
-        }
-        return true;
-    }
+//    public void paintClicked(View view){
+//        //use chosen color
+//        if (view != currPaint){
+//            //update color
+//            ImageButton imgView = (ImageButton)view;
+//            String color = view.getTag().toString();
+//            //after receiving the color tag call setColor method in DrawingView  on the custom drawing View Object:
+//            drawView.setColor(color);
+//            //update UI to reflect chosen color and reset previous one
+//            imgView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint_pressed));
+//            currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint));
+//            currPaint = (ImageButton) view;
+//        }
+//    }
+//
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//        int action = event.getAction();
+//        switch (action)
+//        {
+//            case MotionEvent.ACTION_DOWN:
+//                play_one = true;
+//                fr_1 = event.getX(); //pitch
+//                amp = (int)event.getY();//volume
+//                Log.v("FREQUENCY", ""+fr_1);
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                play_all = true;
+//                fr_1 = event.getX();
+//                amp = (int) event.getY();//
+//                Log.v("FREQUENCY", ""+fr_1);
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                play_all = false;
+//                break;
+//            case MotionEvent.ACTION_CANCEL:
+//                break;
+//            default:
+//                break;
+//        }
+//        return true;
+//    }
 
     //regular code resumes
     @Override

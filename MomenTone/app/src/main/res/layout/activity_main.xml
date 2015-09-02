@@ -1,24 +1,22 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#101840"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#FFCCCCCC"
+    android:orientation="vertical"
+    android:id="@+id/linearLayout"
     tools:context=".MainActivity">
 
 
     <!--TODO: Material design: install toolbar with appropriate buttons. (this is as is for functionality)-->
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="#FFCCCCCC"
-        android:orientation="vertical">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/linearLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:background="#FFCCCCCC"-->
+        <!--android:orientation="vertical">-->
         <!--where our buttons for starting a new drawing, selecting a brush, and an eraser are.
         (This is subject to change based on design snackbar/nav drawer)-->
 
@@ -64,7 +62,7 @@
 
         </LinearLayout>
         <!--change drawing id to "canvas"-->
-        <lighterletter.c4q.nyc.momentone.Views.DrawingView
+        <lighterletter.c4q.nyc.momentone.DrawingView
             android:id="@+id/drawing"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
@@ -223,8 +221,8 @@
 
 
         </LinearLayout>
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
 
-</RelativeLayout>
+</LinearLayout>
 

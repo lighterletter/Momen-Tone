@@ -1,4 +1,4 @@
-package lighterletter.c4q.nyc.momentone.Views;
+package lighterletter.c4q.nyc.momentone;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,16 +6,20 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+
 
 /**
  * Created by c4q-john on 9/2/15.
  * reference from: http://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-interface-creation--mobile-19021
  */
 
-//custom view made to behave as a drawing view: must override needed methods.
+//custom view made to behave as a drawing view: must override needed methods. (custom drawing view class)
 public class DrawingView extends View {
 
     //drawing path: traces drawing action on the canvas. Both canvas and drawing are represented by Paint Objects.
@@ -29,6 +33,32 @@ public class DrawingView extends View {
     //canvas bitmap
     private Bitmap canvasBitmap;
 
+    //Alters class to use different brush sizes:
+    private float brushSize, lastBrushSize;
+    // We will use the first variable for the brush size and the second to keep track of the last
+    // brush size used when the user switches to the eraser, so that we can revert back to the
+    // correct size when they decide to switch back to drawing.
+
+
+    //eraser boolean
+    private boolean erase = false;
+    public void setErase(boolean isErase){
+        //set erase true or false
+
+        //update the flag variable
+        erase = isErase;
+        if (erase) {
+            drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));//look up porter mode
+
+            //Also PorterDuff.Mode options in the android docs for a more advanced topic to research
+        }
+        else{
+            drawPaint.setXfermode(null);
+        }
+
+    }
+
+
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -38,6 +68,9 @@ public class DrawingView extends View {
     private void setupDrawing() {
         //set up area for interaction
 
+        brushSize = getResources().getInteger(R.integer.medium_size);
+        lastBrushSize = brushSize;
+
         //instantiate to set up for draw
         drawPath = new Path();
         drawPaint = new Paint();
@@ -45,7 +78,7 @@ public class DrawingView extends View {
         drawPaint.setColor(paintColor);
         //initial path properties
         drawPaint.setAntiAlias(true); //this, stroke join and cap styles make the drawing appear smoother.
-        drawPaint.setStrokeWidth(20);
+        drawPaint.setStrokeWidth(brushSize);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -54,6 +87,23 @@ public class DrawingView extends View {
         //set dithering by passing a parameter to the constructor
         canvasPaint = new Paint(Paint.DITHER_FLAG);
 
+    }
+
+    //next three methods are called by the Main activity
+    public void setBrushSize(float newSize){
+        //update brush size
+
+        float pixelAmount = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                newSize, getResources().getDisplayMetrics());
+        brushSize = pixelAmount;
+        drawPaint.setStrokeWidth(brushSize); //passing values from dimens file. Could be turned into a seekbar.
+    }
+
+    public void setLastBrushSize(float lastSize){
+         lastBrushSize = lastSize;
+    }
+    public float getLastBrushSize(){
+        return lastBrushSize;
     }
 
     @Override
@@ -109,6 +159,12 @@ public class DrawingView extends View {
         invalidate();
         paintColor = Color.parseColor(newColor);
         drawPaint.setColor(paintColor);
+    }
+
+
+    public void startNew(){
+        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        invalidate(); //clears the canvas and updates the display.
     }
 
 }
