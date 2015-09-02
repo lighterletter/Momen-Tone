@@ -58,8 +58,6 @@ public class DrawingView extends View {
 
     }
 
-
-
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupDrawing();

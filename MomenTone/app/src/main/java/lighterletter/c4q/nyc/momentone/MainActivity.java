@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.util.UUID;
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //represents the instance of the custom VIew that we added to the layout.
      DrawingView drawView;
@@ -33,8 +33,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private float smallBrush, mediumBrush, largeBrush;
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,37 +42,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
         paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
         //get the first button and store it as the instance variable:
         currPaint = (ImageButton) paintLayout.getChildAt(0);
-
         // sets alternate options for when the button is pressed.
         currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint_pressed));
-
-
         //size
         smallBrush = getResources().getInteger(R.integer.small_size);
         mediumBrush = getResources().getInteger(R.integer.medium_size);
         largeBrush = getResources().getInteger(R.integer.large_size);
-
         //extend the currPaint line to add another for the drawing button.
         drawBtn = (ImageButton) findViewById(R.id.draw_btn);
         drawBtn.setOnClickListener(this);
         //
         drawView.setBrushSize(mediumBrush);
-
         //erase button
         eraseBtn = (ImageButton) findViewById(R.id.erase_btn);
         eraseBtn.setOnClickListener(this);
-
         //new canvas button
         newBtn = (ImageButton) findViewById(R.id.new_btn);
         newBtn.setOnClickListener(this);
-
         //save drawing button
         saveBtn = (ImageButton )findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
-
-
-
-
         //music play button
         ImageView imageView =  (ImageView)findViewById(R.id.imageView);
         final PlayPauseDrawable mPlayPauseDrawable = new PlayPauseDrawable(60, 0XFF101840, 0XFFffffff,300);
@@ -83,21 +70,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 mPlayPauseDrawable.toggle();
-
-
-
 //                Intent i = new Intent(getApplicationContext(), stepCounter.class);
 //                startActivity(i);
-//
 //                Intent j = new Intent(getApplicationContext(), DrawingView.class);
 //                startActivity(j);
-
             }
         });
     }
+
+
+
     public void onClick(View view){
         //respond to clicks
-
         Log.v("Somethings been clicked", "onClick is called");
         if (view.getId() == R.id.draw_btn){
             Log.v("Somethings been clicked", "draw button pressed");
@@ -105,12 +89,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             //display a dialog presenting the user with the three button sizes. (Find better way of implementing this.) layout defined in res/layouts
             final Dialog brushDialog = new Dialog(this);
             brushDialog.setTitle("Brush size: ");
-
             //set the layout (contentView into Dialogue object)
             brushDialog.setContentView(R.layout.brush_size_picker_dialoge_layout);
-
             //Listen for clicks on the three size buttons, starting with the small one:
-
             ImageButton smallBtn = (ImageButton) brushDialog.findViewById(R.id.small_brush);
             smallBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
