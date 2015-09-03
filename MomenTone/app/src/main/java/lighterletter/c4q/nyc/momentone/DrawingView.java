@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -49,7 +50,6 @@ public class DrawingView extends View {
         erase = isErase;
         if (erase) {
             drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));//look up porter mode
-
             //Also PorterDuff.Mode options in the android docs for a more advanced topic to research
         }
         else{
@@ -58,9 +58,16 @@ public class DrawingView extends View {
 
     }
 
+
+
+
+    SoundGen synth;
+
+    //constructor
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupDrawing();
+        synth = new SoundGen();
     }
 
     private void setupDrawing() {
@@ -135,20 +142,64 @@ public class DrawingView extends View {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 drawPath.moveTo(touchX,touchY);
+
+                synth.play_one = true;
+                synth.fr_1 = event.getX(); //pitch
+                synth.amp = (int)event.getY();//volume
+                Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
             case MotionEvent.ACTION_MOVE:
                 drawPath.lineTo(touchX, touchY);
+                synth.play_all = true;
+                synth.fr_1 = synth.shuffleArray(synth.pentatonic1) + event.getX();
+                synth.amp = (int) event.getY();//
+                Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
             case MotionEvent.ACTION_UP:
                 drawCanvas.drawPath(drawPath,drawPaint);
                 drawPath.reset();
+
+                synth.play_all = false;
+                break;
+            case MotionEvent.ACTION_CANCEL:
                 break;
             default:
                 return false;
+
         }
         invalidate(); // Calling this will invalidate the view and will cause the onDraw method to execute.
         return true;
     }
+
+
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//        int action = event.getAction();
+//        switch (action)
+//        {
+//            case MotionEvent.ACTION_DOWN:
+//
+//                synth.play_one = true;
+//                synth.fr_1 = event.getX(); //pitch
+//                synth.amp = (int)event.getY();//volume
+//                Log.v("FREQUENCY", "" + synth.fr_1);
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                synth.play_all = true;
+//                synth.fr_1 = event.getX();
+//                synth.amp = (int) event.getY();//
+//                Log.v("FREQUENCY", "" + synth.fr_1);
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                synth.play_all = false;
+//                break;
+//            case MotionEvent.ACTION_CANCEL:
+//                break;
+//            default:
+//                break;
+//        }
+//        return true;
+//    }
 
     public void setColor(String newColor){
         //set color

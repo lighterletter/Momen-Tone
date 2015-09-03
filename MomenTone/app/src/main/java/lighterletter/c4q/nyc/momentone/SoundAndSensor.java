@@ -22,7 +22,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class stepCounter extends Activity implements SensorEventListener  {
+public class SoundAndSensor extends Activity implements SensorEventListener  {
 
 
     SensorManager sensorManager;
@@ -92,8 +92,9 @@ public class stepCounter extends Activity implements SensorEventListener  {
     boolean play_low = false;
     boolean play_all = false;
 
+    //step detector boolean
     boolean step_registered = false;
-
+    //general sensor boolean
     boolean sensor_state = true;
 
     //shuffles notes
@@ -103,26 +104,26 @@ public class stepCounter extends Activity implements SensorEventListener  {
         return list.get(index);
     }
 
-    //draw instance vars
-    //represents the instance of the custom VIew that we added to the layout.
-    DrawingView drawView;
-    //paint color button in the pallete
-    ImageButton currPaint;
-    //need layout that contains button to retrieve the first paint color in the palette.
-    LinearLayout paintLayout;
+//    //draw instance vars
+//    //represents the instance of the custom VIew that we added to the layout.
+//    DrawingView drawView;
+//    //paint color button in the pallete
+//    ImageButton currPaint;
+//    //need layout that contains button to retrieve the first paint color in the palette.
+//    LinearLayout paintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //drawing
-        drawView = (DrawingView) findViewById(R.id.drawing);
-        paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
-        //get the first button and store it as the instance variable:
-        currPaint = (ImageButton) paintLayout.getChildAt(0);
-        // sets alternate options for when the button is pressed.
-        currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint_pressed));
+//        //drawing
+//        drawView = (DrawingView) findViewById(R.id.drawing);
+//        paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
+//        //get the first button and store it as the instance variable:
+//        currPaint = (ImageButton) paintLayout.getChildAt(0);
+//        // sets alternate options for when the button is pressed.
+//        currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint_pressed));
 
 
         //music
@@ -159,6 +160,8 @@ public class stepCounter extends Activity implements SensorEventListener  {
 
         //sensor listeners
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR),
                 SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
@@ -178,28 +181,15 @@ public class stepCounter extends Activity implements SensorEventListener  {
             public void onClick(View v) {
                 //  xor operator: ( ^= )  is 12% percent faster, and more efficient than
                 // other alternatives like: bool = !bool; or bool = bool ? false : true;
-
                 //toggles sound
                 sensor_state ^= true;
-
                 mPlayPauseDrawable.toggle();
-
             }
         });
 
-
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        play_one = false;
-        play_two = false;
-        play_three = false;
-        finish();
-        sensor_state = false;
 
-    }
     //inserted from Main activity to quickly test compatibility. No
 //    public void paintClicked(View view){
 //        //use chosen color
@@ -216,6 +206,10 @@ public class stepCounter extends Activity implements SensorEventListener  {
 //        }
 //    }
 //
+
+
+
+
 //    @Override
 //    public boolean onTouch(View v, MotionEvent event) {
 //        int action = event.getAction();
@@ -258,8 +252,6 @@ public class stepCounter extends Activity implements SensorEventListener  {
                 step_fr_2 = shuffleArray(pentatonic_0);
                 step_fr_3 = shuffleArray(pentatonic_0);
                 step_registered = true;
-
-
 
                 Log.v("this is pedometer: ", "" + step_fr_1);
 
@@ -367,37 +359,22 @@ public class stepCounter extends Activity implements SensorEventListener  {
         @Override
         protected Void doInBackground(Void... params) {
             int buffSize = AudioTrack.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
-
             AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short samples[] = new short[buffSize];
             audioTrack.play();
-
             AudioTrack audioTrack1 = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short samples1[] = new short[buffSize];
             audioTrack1.play();
-
             AudioTrack audioTrack2 = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short samples2[] = new short[buffSize];
             audioTrack2.play();
-
             AudioTrack lowAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short lowSamples[] = new short[buffSize];
             lowAudioTrack.play();
-
-
             AudioTrack steptrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short stepsamples[] = new short[buffSize];
             steptrack.play();
-
-
-
-
-
-
-
-
             while (true) {
-
                 if (play_one || play_all) {//On touch
                     for (int l = 0; l < buffSize; l++) {
                         samples[l] = (short) (amp * Math.sin(ph));
@@ -419,7 +396,6 @@ public class stepCounter extends Activity implements SensorEventListener  {
                     }
                     audioTrack2.write(samples2, 0, buffSize);
                 }
-
                 if (play_low || play_all) {
                     for (int n = 0; n < buffSize; n++) {
                         samples2[n] = (short) (amp * Math.sin(ph));
@@ -427,8 +403,6 @@ public class stepCounter extends Activity implements SensorEventListener  {
                     }
                     lowAudioTrack.write(lowSamples, 0, buffSize);
                 }
-
-
                 //step counter tracks
                 if (step_registered) {//On  step
 
@@ -438,7 +412,6 @@ public class stepCounter extends Activity implements SensorEventListener  {
                     }
                     steptrack.write(stepsamples, 0, buffSize);
                 }
-
             }
         }
     }
