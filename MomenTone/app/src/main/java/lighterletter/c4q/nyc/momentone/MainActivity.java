@@ -22,60 +22,70 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //represents the instance of the custom VIew that we added to the layout.
-     DrawingView drawView;
-    //paint color button in the palette
-     ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
-    //need layout that contains button to retrieve the first paint color in the palette.
-    LinearLayout paintLayout;
-    //Brush size: To store three dimension values defined last time
+        DrawingView drawView;
+    //main function buttons for the palette
+        ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
+    // layout that contains button to retrieve the first paint color in the palette.
+        LinearLayout paintLayout;
+    //Brush size: To store three dimension values defined in dimens,
+    // TODO: transfer into a seekbar or something similar
     private float smallBrush, mediumBrush, largeBrush;
 
 
-
+    //Sensor class, contains anything to do with the sensor system.
     SensorListener sensei;
+    //sensor manager passed to sensor class.
     SensorManager sensorManager;
 
-    SoundGen soundgen;
+    //synth
+    MTherory soundgen;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //sensor functionality:
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensei= new SensorListener(sensorManager);
+
+
+
+        //draw functionality:
         drawView = (DrawingView) findViewById(R.id.drawing);
         paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
+
         //get the first button and store it as the instance variable:
         currPaint = (ImageButton) paintLayout.getChildAt(0);
         // sets alternate options for when the button is pressed.
         currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint_pressed));
-
-
         //size
         smallBrush = getResources().getInteger(R.integer.small_size);
         mediumBrush = getResources().getInteger(R.integer.medium_size);
         largeBrush = getResources().getInteger(R.integer.large_size);
 
-
-
-        //extend the currPaint line to add another for the drawing button.
+        //add another for the drawing button.
         drawBtn = (ImageButton) findViewById(R.id.draw_btn);
         drawBtn.setOnClickListener(this);
-        //
+
+        // default brush size
         drawView.setBrushSize(mediumBrush);
+
         //erase button
         eraseBtn = (ImageButton) findViewById(R.id.erase_btn);
         eraseBtn.setOnClickListener(this);
+
         //new canvas button
         newBtn = (ImageButton) findViewById(R.id.new_btn);
         newBtn.setOnClickListener(this);
+
         //save drawing button
         saveBtn = (ImageButton )findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
 
 
 
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensei= new SensorListener(sensorManager);
 
         //Play-Pause button.
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
@@ -87,12 +97,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //  xor operator: ( ^= )  is 12% percent faster, and more efficient than
                 // other alternatives like: bool = !bool; or bool = bool ? false : true;
                 //toggles sound
-                sensei.sensor_state ^= true;
+
+
+                //TODO: Make button temporarily disable all audiotracks (Bool on touch in DrawView)
+//                sensei.sensor_state ^= true;
+//                soundgen.play_all ^= true;
                 mPlayPauseDrawable.toggle();
             }
         });
     }
 
+    //To implement for flow control if we end up using the sensors for continous playback.
 //    @Override
 //    protected void onPause() {
 //        super.onPause();
@@ -104,12 +119,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    }
 
 
+    //listener for draw functionality buttons
     public void onClick(View view){
         //respond to clicks
         Log.v("Somethings been clicked", "onClick is called");
         if (view.getId() == R.id.draw_btn){
             Log.v("Somethings been clicked", "draw button pressed");
-            //create Dialogue and set title
+
+            //creates Dialogue and sets title for brush size when brush (draw_btn) is clicked.
+
             //display a dialog presenting the user with the three button sizes. (Find better way of implementing this.) layout defined in res/layouts
             final Dialog brushDialog = new Dialog(this);
             brushDialog.setTitle("Brush size: ");
@@ -154,7 +172,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
             //complete draw button section of Onclick by dysplaying Dialog:
             brushDialog.show();
-        } else if(view.getId() == R.id.erase_btn){
+
+
+
+        } //ERASER SIZE
+        else if(view.getId() == R.id.erase_btn){
+
             //switch to erase - choose eraser size
             Log.v("Somethings been clicked", " erase is clicked!");
             final Dialog brushDialog = new Dialog(this);
@@ -193,9 +216,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             brushDialog.show();
-        }
+
+
+
+        } //NEW DRAWING BUTTON
         else if (view.getId()==R.id.new_btn){
-            //new canvas button
+
+            //Assert message to confirm user's actions
             Log.v("Somethings been clicked", "new canvas is clicked!");
             AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
             newDialog.setTitle("New drawing");
@@ -216,12 +243,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             newDialog.show();
-        }
+
+
+
+        } //SAVE BUTTON
         else if (view.getId()==R.id.save_btn){
-            //save drawing
+
+
+        //save drawing to gallery
             Log.v("Somethings been clicked", "save button clicked");
-
-
             AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
             saveDialog.setTitle("Save drawing");
             saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {//could do with more quirky
@@ -255,12 +285,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             saveDialog.show();
+
+
         }
     }
 
-
-
-
+    //Color Picker
     public void paintClicked(View view){
         drawView.setErase(false); // assumes user wants to draw if paint is clicked
         drawView.setBrushSize(drawView.getLastBrushSize()); // gets the last brush size used.

@@ -17,11 +17,17 @@ import android.view.View;
 
 /**
  * Created by c4q-john on 9/2/15.
- * reference from: http://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-interface-creation--mobile-19021
+ * referenced from: http://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-interface-creation--mobile-19021
+ *
+ * This class connects with the main activity to handle the drawing features for the app.
+ * Contains code that maps user input to pitch and volume control.
  */
 
 //custom view made to behave as a drawing view: must override needed methods. (custom drawing view class)
 public class DrawingView extends View {
+
+    // Reference to class that handles sound.
+    MTherory synth;
 
     //drawing path: traces drawing action on the canvas. Both canvas and drawing are represented by Paint Objects.
     private Path drawPath;
@@ -40,12 +46,10 @@ public class DrawingView extends View {
     // brush size used when the user switches to the eraser, so that we can revert back to the
     // correct size when they decide to switch back to drawing.
 
-
     //eraser boolean
     private boolean erase = false;
     public void setErase(boolean isErase){
         //set erase true or false
-
         //update the flag variable
         erase = isErase;
         if (erase) {
@@ -55,24 +59,18 @@ public class DrawingView extends View {
         else{
             drawPaint.setXfermode(null);
         }
-
     }
 
 
-
-
-    SoundGen synth;
-
-    //constructor
+    // Class Constructor
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupDrawing();
-        synth = new SoundGen();
+        synth = new MTherory();
     }
 
     private void setupDrawing() {
         //set up area for interaction
-
         brushSize = getResources().getInteger(R.integer.medium_size);
         lastBrushSize = brushSize;
 
@@ -97,7 +95,6 @@ public class DrawingView extends View {
     //next three methods are called by the Main activity
     public void setBrushSize(float newSize){
         //update brush size
-
         float pixelAmount = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 newSize, getResources().getDisplayMetrics());
         brushSize = pixelAmount;
@@ -115,7 +112,6 @@ public class DrawingView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         //view given size
         super.onSizeChanged(w, h, oldw, oldh);
-
         //instantiate the drawing canvas and bitmap using the width and height values
         canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         drawCanvas = new Canvas(canvasBitmap);
@@ -125,7 +121,6 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         //draw view
-
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
         // The abilitity for the user to draw the path using the drawing paint is not implemented yet
@@ -141,37 +136,74 @@ public class DrawingView extends View {
 
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
+                //Moves pointer to:
                 drawPath.moveTo(touchX,touchY);
 
-                synth.play_one = true;
-                synth.fr_1 = event.getX(); //pitch
-                synth.amp = (int)event.getY();//volume
-                Log.v("FREQUENCY", "" + synth.fr_1);
+                //synth
+//                synth.play_one = true;
+//                synth.fr_1 = event.getX(); //pitch
+//                synth.amp = (int)event.getY();//volume
+//                Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
+
             case MotionEvent.ACTION_MOVE:
+                //draw: creates path
                 drawPath.lineTo(touchX, touchY);
-                synth.play_all = true;
-                synth.fr_1 = synth.shuffleArray(synth.pentatonic1) + event.getX();
+
+                //synth: changes pitch
+                synth.play_one = true;
+                synth.fr_1 =  event.getX();
                 synth.amp = (int) event.getY();//
                 Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
+
             case MotionEvent.ACTION_UP:
+                //draw: sets path.
                 drawCanvas.drawPath(drawPath,drawPaint);
                 drawPath.reset();
 
+                //synth: closes channel: (There must be a better to to do this)
+
+
                 synth.play_all = false;
+                synth.play_one = false;
                 break;
-            case MotionEvent.ACTION_CANCEL:
-                break;
+
+            // To be tested, not sure what this does yet but I put it here because it was in the code
+            // for the onTouch. Must test.
+//            case MotionEvent.ACTION_CANCEL:
+//                break;
+
             default:
                 return false;
 
         }
+
         invalidate(); // Calling this will invalidate the view and will cause the onDraw method to execute.
         return true;
     }
 
 
+    //TODO: Create some way to do a color fill.
+    public void setColor(String newColor){
+        //set color
+
+        //start by invalidating the View
+        invalidate();
+
+        paintColor = Color.parseColor(newColor);
+        drawPaint.setColor(paintColor);
+    }
+
+
+    public void startNew(){
+        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        invalidate(); //clears the canvas and updates the display.
+    }
+
+
+    //This was the code used before for finger synthesis in it's own dedicated class.
+    // I put it here for reference and legacy purposes.
 //    @Override
 //    public boolean onTouch(View v, MotionEvent event) {
 //        int action = event.getAction();
@@ -200,20 +232,4 @@ public class DrawingView extends View {
 //        }
 //        return true;
 //    }
-
-    public void setColor(String newColor){
-        //set color
-
-        //start by invalidating the View
-        invalidate();
-        paintColor = Color.parseColor(newColor);
-        drawPaint.setColor(paintColor);
-    }
-
-
-    public void startNew(){
-        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
-        invalidate(); //clears the canvas and updates the display.
-    }
-
 }

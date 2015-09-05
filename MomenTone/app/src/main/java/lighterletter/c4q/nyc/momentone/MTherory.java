@@ -12,7 +12,23 @@ import java.util.List;
 /**
  * Created by c4q-john on 9/3/15.
  */
-public class SoundGen {
+public class MTherory {
+
+
+    //12 Note/Color  pairs mapped to sound. Ascending. Octave 4;
+    double a    = 440.f;   //yellow
+    double a_b  = 466.164; // 
+    double b    = 493.883;
+    double c    = 523.251;
+    double c_d  = 554.365;
+    double d    = 587.330;
+    double d_e  = 622.254;
+    double e    = 659.255;
+    double f    = 698.456;
+    double f_g  = 739.989;
+    double g    = 783.991;
+    double g_a  = 830.609;
+
 
     //waveform
     int amp = 10000;
@@ -22,7 +38,6 @@ public class SoundGen {
     final int SAMPLE_RATE = 11025 * 2;
 
     //frequencies
-
     // C Major scale 3 octaves    c d,e,f,g,a,b,c
 //    double c6 = 1046.50;
 //    double b5 = 987.767;
@@ -78,16 +93,13 @@ public class SoundGen {
     //step detector boolean
     boolean step_registered = false;
 
-    public SoundGen() {
+    public MTherory() {
 
         initNoteArrays();
         audioSynth = new AudioSynthesisTask();
         audioSynth.execute();
-
-
-
-
     }
+
     //shuffles notes
     public double shuffleArray(List<Double> list) {
         int index = (int) (Math.random() * list.size());
@@ -95,7 +107,7 @@ public class SoundGen {
         return list.get(index);
     }
 
-    private void initNoteArrays(){
+    private void initNoteArrays() {
         //music
         pentatonic1 = new ArrayList<>();
 //        pentatonic1.add(c6);
@@ -123,57 +135,102 @@ public class SoundGen {
             int buffSize = AudioTrack.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
             AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short samples[] = new short[buffSize];
-            audioTrack.play();
+//            audioTrack.play();
             AudioTrack audioTrack1 = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short samples1[] = new short[buffSize];
-            audioTrack1.play();
+//            audioTrack1.play();
             AudioTrack audioTrack2 = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short samples2[] = new short[buffSize];
-            audioTrack2.play();
+//            audioTrack2.play();
             AudioTrack lowAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short lowSamples[] = new short[buffSize];
-            lowAudioTrack.play();
+//            lowAudioTrack.play();
             AudioTrack steptrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short stepsamples[] = new short[buffSize];
-            steptrack.play();
+//            steptrack.play();
 
             while (true) {
-                if (play_one || play_all) {//On touch
-                    for (int l = 0; l < buffSize; l++) {
-                        samples[l] = (short) (amp * Math.sin(ph));
-                        ph += twoPi * fr_1 / SAMPLE_RATE;
-                    }
-                    audioTrack.write(samples, 0, buffSize);
-                }
-                if (play_two || play_all) {
-                    for (int j = 0; j < buffSize; j++) {
-                        samples1[j] = (short) (amp * Math.sin(ph));
-                        ph += twoPi * fr_2 / SAMPLE_RATE;
-                    }
-                    audioTrack1.write(samples1, 0, buffSize);
-                }
-                if (play_three || play_all) {
-                    for (int n = 0; n < buffSize; n++) {
-                        samples2[n] = (short) (amp * Math.sin(ph));
-                        ph += twoPi * fr_3 / SAMPLE_RATE;
-                    }
-                    audioTrack2.write(samples2, 0, buffSize);
-                }
-                if (play_low || play_all) {
-                    for (int n = 0; n < buffSize; n++) {
-                        samples2[n] = (short) (amp * Math.sin(ph));
-                        ph += twoPi * fr_4 / SAMPLE_RATE;
-                    }
-                    lowAudioTrack.write(lowSamples, 0, buffSize);
-                }
-                //step counter tracks
-                if (step_registered) {//On  step
 
-                    for (int l = 0; l < buffSize; l++) {
-                        stepsamples[l] = (short) (amp * Math.sin(ph));
-                        ph += twoPi * step_fr_1 / SAMPLE_RATE;
+                if (play_all) {
+
+                    if (play_one) {//On touch
+
+                        audioTrack.play();
+
+                        for (int l = 0; l < buffSize; l++) {
+                            samples[l] = (short) (amp * Math.sin(ph));
+                            ph += twoPi * fr_1 / SAMPLE_RATE;
+                        }
+                        audioTrack.write(samples, 0, buffSize);
+                    } else {
+                        audioTrack.pause();
+                        audioTrack.flush();
+                        audioTrack.stop();
                     }
-                    steptrack.write(stepsamples, 0, buffSize);
+
+
+                    if (play_two) {
+
+                        audioTrack1.play();
+
+                        for (int j = 0; j < buffSize; j++) {
+                            samples1[j] = (short) (amp * Math.sin(ph));
+                            ph += twoPi * fr_2 / SAMPLE_RATE;
+                        }
+                        audioTrack1.write(samples1, 0, buffSize);
+                    } else {
+                        audioTrack1.pause();
+                        audioTrack1.flush();
+                        audioTrack1.stop();
+                    }
+
+                    if (play_three) {
+
+                        audioTrack2.play();
+
+                        for (int n = 0; n < buffSize; n++) {
+                            samples2[n] = (short) (amp * Math.sin(ph));
+                            ph += twoPi * fr_3 / SAMPLE_RATE;
+                        }
+                        audioTrack2.write(samples2, 0, buffSize);
+                    } else {
+                        audioTrack2.pause();
+                        audioTrack2.flush();
+//                    audioTrack2.stop();
+                    }
+
+
+                    if (play_low) {
+                        lowAudioTrack.play();
+
+                        for (int n = 0; n < buffSize; n++) {
+                            samples2[n] = (short) (amp * Math.sin(ph));
+                            ph += twoPi * fr_4 / SAMPLE_RATE;
+                        }
+                        lowAudioTrack.write(lowSamples, 0, buffSize);
+                    } else {
+                        lowAudioTrack.pause();
+                        lowAudioTrack.flush();
+//                    lowAudioTrack.stop();
+                    }
+                    //step counter tracks
+                    if (step_registered) {//On  step
+
+                        steptrack.play();
+
+                        for (int l = 0; l < buffSize; l++) {
+                            stepsamples[l] = (short) (amp * Math.sin(ph));
+                            ph += twoPi * step_fr_1 / SAMPLE_RATE;
+                        }
+                        steptrack.write(stepsamples, 0, buffSize);
+                    } else {
+                        steptrack.pause();
+                        steptrack.flush();
+//                    steptrack.stop();
+                    }
+
+                } else {
+                    audioSynth.cancel(true);
                 }
             }
         }
