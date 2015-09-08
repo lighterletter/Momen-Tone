@@ -157,6 +157,7 @@ public class SoundGen {
 
                     audioTrack.play();
 
+
                     for (int l = 0; l < buffSize; l++) {
                         samples[l] = (short) (amp * Math.sin(ph));
                         ph += twoPi * fr_1 / SAMPLE_RATE;
@@ -172,6 +173,7 @@ public class SoundGen {
                 if (play_two || play_all) {
 
                     audioTrack1.play();
+
 
                     for (int j = 0; j < buffSize; j++) {
                         samples1[j] = (short) ((2 / Math.PI) * Math.asin(Math.sin(ph)) * amp);
@@ -196,7 +198,6 @@ public class SoundGen {
                     audioTrack2.flush();
                     audioTrack2.stop();
                 }
-
 
                 if (play_low) {
                     lowAudioTrack.play();

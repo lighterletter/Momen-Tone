@@ -3,15 +3,24 @@ package lighterletter.c4q.nyc.momentone;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -33,13 +42,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private float smallBrush, mediumBrush, largeBrush;
 
 
-    //Sensor class, contains anything to do with the sensor system.
     SensorListener sensei;
     //sensor manager passed to sensor class.
     SensorManager sensorManager;
 
     //synth
 //    SoundGen soundgen;
+
+    Toolbar toolbar;
 
 
     @Override
@@ -50,10 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //sensor functionality:
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensei = new SensorListener(sensorManager);
-
-
-
-
 
         //draw functionality:
         drawView = (DrawingView) findViewById(R.id.drawing);
@@ -86,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //save drawing button
         saveBtn = (ImageButton )findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+
 
     }
 
@@ -268,7 +275,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
             saveDialog.show();
 
-
         }
     }
 
@@ -290,4 +296,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             currPaint = (ImageButton) view;
         }
     }
+
+
 }

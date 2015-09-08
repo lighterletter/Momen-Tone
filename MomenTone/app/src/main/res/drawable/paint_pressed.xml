@@ -17,12 +17,18 @@
     <item>
         <shape android:shape="oval" >
             <stroke
+
                 android:width="50dp"
                 android:color="#FF333333" />
 
             <solid android:color="#00000000" />
 
             <corners android:radius="50dp" />
+
+
+            <solid android:color="#00000000" />
+
+
         </shape>
     </item>
 </layer-list>
