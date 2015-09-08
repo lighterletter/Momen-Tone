@@ -9,10 +9,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -31,11 +31,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private float smallBrush, mediumBrush, largeBrush;
 
 
-
     SensorListener sensei;
     SensorManager sensorManager;
 
     SoundGen soundgen;
+
+    Toolbar toolbar;
 
 
     @Override
@@ -77,20 +78,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensei= new SensorListener(sensorManager);
 
-        //Play-Pause button.
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        final PlayPauseDrawable mPlayPauseDrawable = new PlayPauseDrawable(60, 0XFF101840, 0XFFffffff, 300);
-        imageView.setImageDrawable(mPlayPauseDrawable);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //  xor operator: ( ^= )  is 12% percent faster, and more efficient than
-                // other alternatives like: bool = !bool; or bool = bool ? false : true;
-                //toggles sound
-                sensei.sensor_state ^= true;
-                mPlayPauseDrawable.toggle();
-            }
-        });
+
+//        //Play-Pause button.
+//        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+//        final PlayPauseDrawable mPlayPauseDrawable = new PlayPauseDrawable(60, 0XFF101840, 0XFFffffff, 300);
+//        imageView.setImageDrawable(mPlayPauseDrawable);
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //  xor operator: ( ^= )  is 12% percent faster, and more efficient than
+//                // other alternatives like: bool = !bool; or bool = bool ? false : true;
+//                //toggles sound
+//                sensei.sensor_state ^= true;
+//                mPlayPauseDrawable.toggle();
+//            }
+//        });
     }
 
 //    @Override
@@ -278,4 +280,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             currPaint = (ImageButton) view;
         }
     }
+
+
+
 }

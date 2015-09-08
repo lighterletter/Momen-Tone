@@ -10,13 +10,8 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -173,19 +168,19 @@ public class SoundAndSensor extends Activity implements SensorEventListener  {
 //        touchView.setOnTouchListener(this);
 
         //Play-Pause button.
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        final PlayPauseDrawable mPlayPauseDrawable = new PlayPauseDrawable(60, 0XFF101840, 0XFFffffff, 300);
-        imageView.setImageDrawable(mPlayPauseDrawable);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //  xor operator: ( ^= )  is 12% percent faster, and more efficient than
-                // other alternatives like: bool = !bool; or bool = bool ? false : true;
-                //toggles sound
-                sensor_state ^= true;
-                mPlayPauseDrawable.toggle();
-            }
-        });
+//        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+//        final PlayPauseDrawable mPlayPauseDrawable = new PlayPauseDrawable(60, 0XFF101840, 0XFFffffff, 300);
+//        imageView.setImageDrawable(mPlayPauseDrawable);
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //  xor operator: ( ^= )  is 12% percent faster, and more efficient than
+//                // other alternatives like: bool = !bool; or bool = bool ? false : true;
+//                //toggles sound
+//                sensor_state ^= true;
+//                mPlayPauseDrawable.toggle();
+//            }
+//        });
 
     }
 

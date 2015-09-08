@@ -138,34 +138,39 @@ public class DrawingView extends View {
         //detect user touch
         float touchX = event.getX();
         float touchY = event.getY();
-
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
+                //Moves pointer to:
                 drawPath.moveTo(touchX,touchY);
-
+                //synth
                 synth.play_one = true;
-                synth.fr_1 = event.getX(); //pitch
+                synth.fr_1 = synth.shuffleArray(synth.pentatonic1) + touchX; //pitch
                 synth.amp = (int)event.getY();//volume
                 Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
             case MotionEvent.ACTION_MOVE:
+                //draw: creates path
                 drawPath.lineTo(touchX, touchY);
-                synth.play_all = true;
-                synth.fr_1 = synth.shuffleArray(synth.pentatonic1) + event.getX();
+                //synth: changes pitch
+                synth.play_one = true;
+                synth.fr_1 =  synth.shuffleArray(synth.pentatonic1) + touchX;
                 synth.amp = (int) event.getY();//
                 Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
             case MotionEvent.ACTION_UP:
+                //draw: sets path.
                 drawCanvas.drawPath(drawPath,drawPaint);
                 drawPath.reset();
-
+                //synth: closes channel: (There must be a better to to do this)
                 synth.play_all = false;
+                synth.play_one = false;
                 break;
-            case MotionEvent.ACTION_CANCEL:
-                break;
+            // To be tested, not sure what this does yet but I put it here because it was in the code
+            // for the onTouch. Must test.
+//            case MotionEvent.ACTION_CANCEL:
+//                break;
             default:
                 return false;
-
         }
         invalidate(); // Calling this will invalidate the view and will cause the onDraw method to execute.
         return true;
