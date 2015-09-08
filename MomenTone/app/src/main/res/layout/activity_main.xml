@@ -27,10 +27,7 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+
 
             <ImageButton
                 android:id="@+id/new_btn"
@@ -95,7 +92,8 @@
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
                     android:src="@drawable/paint"
-                    android:tag="#FF660000" />
+                    android:tag="#FF660000"
+                    />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"

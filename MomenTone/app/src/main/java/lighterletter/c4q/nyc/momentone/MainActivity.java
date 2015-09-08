@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -25,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DrawingView drawView;
     //main function buttons for the palette
         ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
+
+
     // layout that contains button to retrieve the first paint color in the palette.
         LinearLayout paintLayout;
     //Brush size: To store three dimension values defined in dimens,
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SensorManager sensorManager;
 
     //synth
-    MTherory soundgen;
+//    SoundGen soundgen;
 
 
     @Override
@@ -48,7 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //sensor functionality:
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensei= new SensorListener(sensorManager);
+        sensei = new SensorListener(sensorManager);
+
+
 
 
 
@@ -84,27 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveBtn = (ImageButton )findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
 
-
-
-
-        //Play-Pause button.
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        final PlayPauseDrawable mPlayPauseDrawable = new PlayPauseDrawable(60, 0XFF101840, 0XFFffffff, 300);
-        imageView.setImageDrawable(mPlayPauseDrawable);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //  xor operator: ( ^= )  is 12% percent faster, and more efficient than
-                // other alternatives like: bool = !bool; or bool = bool ? false : true;
-                //toggles sound
-
-
-                //TODO: Make button temporarily disable all audiotracks (Bool on touch in DrawView)
-//                sensei.sensor_state ^= true;
-//                soundgen.play_all ^= true;
-                mPlayPauseDrawable.toggle();
-            }
-        });
     }
 
     //To implement for flow control if we end up using the sensors for continous playback.

@@ -36,11 +36,12 @@
 //    double ph = 0.0;
 //    final int SAMPLE_RATE = 11025 * 2;
 //
-//    // C Major scale 3 octaves    c d,e,f,g,a,b,c
+//// C Major scale 3 octaves    c d,e,f,g,a,b,c
 ////    double c6 = 1046.50;
 ////    double b5 = 987.767;
 ////    double a5 = 880.f;
-//    //pentatonic starting at 4th ocatave of A. for coding purposes its octave 1
+//// pentatonic starting at 4th ocatave of A. for coding purposes its octave 1
+//
 //    double gs5 = 830.609;
 //    double fs5 = 739.989;
 //    double ds5 = 622.254;
@@ -190,7 +191,7 @@
 //    }
 //
 //
-//    //inserted from Main activity to quickly test compatibility. No
+//    //inserted from Main activity to quickly test compatibility.
 ////    public void paintClicked(View view){
 ////        //use chosen color
 ////        if (view != currPaint){

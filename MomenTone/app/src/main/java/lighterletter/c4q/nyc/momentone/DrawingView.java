@@ -27,7 +27,7 @@ import android.view.View;
 public class DrawingView extends View {
 
     // Reference to class that handles sound.
-    MTherory synth;
+    SoundGen synth;
 
     //drawing path: traces drawing action on the canvas. Both canvas and drawing are represented by Paint Objects.
     private Path drawPath;
@@ -66,7 +66,8 @@ public class DrawingView extends View {
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupDrawing();
-        synth = new MTherory();
+        synth = new SoundGen();
+
     }
 
     private void setupDrawing() {
@@ -140,10 +141,15 @@ public class DrawingView extends View {
                 drawPath.moveTo(touchX,touchY);
 
                 //synth
-//                synth.play_one = true;
-//                synth.fr_1 = event.getX(); //pitch
-//                synth.amp = (int)event.getY();//volume
-//                Log.v("FREQUENCY", "" + synth.fr_1);
+                synth.play_one = true;
+                synth.play_two = true;
+                synth.play_three = true;
+                synth.fr_1 =synth.shuffleArray(synth.pentatonic1) + touchX; //pitch
+                synth.fr_2 = synth.shuffleArray(synth.pentatonic_0) + touchX;
+                synth.fr_3 = synth.shuffleArray(synth.pentatonic_0) + touchX;
+
+                synth.amp = (int)event.getY();//volume
+                Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -152,7 +158,11 @@ public class DrawingView extends View {
 
                 //synth: changes pitch
                 synth.play_one = true;
-                synth.fr_1 =  event.getX();
+                synth.play_two = true;
+                synth.play_three = true;
+                synth.fr_1 = synth.shuffleArray(synth.pentatonic1) + touchX; //pitch
+                synth.fr_2 = synth.shuffleArray(synth.pentatonic1) + touchX;
+                synth.fr_3 = synth.shuffleArray(synth.pentatonic1) + touchX;
                 synth.amp = (int) event.getY();//
                 Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
@@ -167,6 +177,9 @@ public class DrawingView extends View {
 
                 synth.play_all = false;
                 synth.play_one = false;
+                synth.play_two = false;
+                synth.play_three = false;
+
                 break;
 
             // To be tested, not sure what this does yet but I put it here because it was in the code

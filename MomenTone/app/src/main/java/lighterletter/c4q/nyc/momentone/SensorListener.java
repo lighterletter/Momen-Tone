@@ -1,14 +1,10 @@
 package lighterletter.c4q.nyc.momentone;
 
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 
 /**
  * Created by c4q-john on 9/3/15.
@@ -27,7 +23,7 @@ public class SensorListener extends AppCompatActivity implements SensorEventList
     boolean sensor_state = true;
 
 
-//    SoundGen synth;
+    SoundGen synth;
 
 
     public SensorListener(SensorManager sensorManager) {
@@ -46,7 +42,7 @@ public class SensorListener extends AppCompatActivity implements SensorEventList
 
     }
 
-//        @Override
+//    @Override
 //    public boolean onTouch(View v, MotionEvent event) {
 //        int action = event.getAction();
 //        switch (action)
@@ -75,20 +71,20 @@ public class SensorListener extends AppCompatActivity implements SensorEventList
 //        return true;
 //    }
 
-//    public SensorListener() {
-//
-//
-//        //sensor listeners
-//        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-//        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR),
-//                SensorManager.SENSOR_DELAY_NORMAL);
-//        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
-//                SensorManager.SENSOR_DELAY_NORMAL);
-//        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-//                SensorManager.SENSOR_DELAY_NORMAL);
-//
-//
-//    }
+    public SensorListener() {
+
+
+        //sensor listeners
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+
+
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
