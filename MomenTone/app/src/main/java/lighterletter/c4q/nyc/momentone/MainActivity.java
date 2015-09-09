@@ -3,22 +3,17 @@ package lighterletter.c4q.nyc.momentone;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +45,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    SoundGen soundgen;
 
     Toolbar toolbar;
+    NavigationView mColorNavigationView;
+    NavigationView mToolNavigationView;
+    DrawerLayout mDrawerLayout;
+    ImageView swipeRight;
+    ImageView swipeLeft;
 
 
     @Override
@@ -92,6 +92,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //save drawing button
         saveBtn = (ImageButton )findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_top);
+        setSupportActionBar(toolbar);
+//        final ActionBar ab = getSupportActionBar();
+//        ab.setIcon(R.drawable.ic_forward);
+
+
+        mColorNavigationView = (NavigationView) findViewById(R.id.color_drawer);
+        mToolNavigationView = (NavigationView) findViewById(R.id.tool_drawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        swipeRight = (ImageView) findViewById(R.id.swipe_right);
+        swipeLeft = (ImageView) findViewById(R.id.swipe_left);
+
+
+        swipeRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(mColorNavigationView);
+            }
+        });
+
+        swipeLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(mToolNavigationView);
+            }
+        });
 
 
     }

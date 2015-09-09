@@ -142,11 +142,32 @@ public class DrawingView extends View {
 
                 //synth
                 synth.play_one = true;
-                synth.play_two = true;
-                synth.play_three = true;
-                synth.fr_1 =synth.shuffleArray(synth.pentatonic1) + touchX; //pitch
-                synth.fr_2 = synth.shuffleArray(synth.pentatonic_0) + touchX;
-                synth.fr_3 = synth.shuffleArray(synth.pentatonic_0) + touchX;
+                if (paintColor ==  0xFF660000) {
+                    synth.fr_1 = synth.a + touchX; //pitch
+                }else if (paintColor == 0xFFFF0000){
+                    synth.fr_1 = synth.a_b + touchX;
+                } else if (paintColor == 0xFFFF6600 ){
+                    synth.fr_1 = synth.b + touchX;
+                } else if (paintColor == 0xFFFFCC00 ){
+                    synth.fr_1 = synth.c + touchX;
+                } else if (paintColor == 0xFF009900 ){
+                    synth.fr_1 = synth.c_d + touchX;
+                } else if (paintColor == 0xFF009999 ){
+                    synth.fr_1 = synth.d + touchX;
+                } else if (paintColor == 0xFF0000FF ){
+                    synth.fr_1 = synth.d_e + touchX;
+                } else if (paintColor == 0xFF990099 ){
+                    synth.fr_1 = synth.e + touchX;
+                } else if (paintColor == 0xFFFF6666 ){
+                    synth.fr_1 = synth.f + touchX;
+                } else if (paintColor == 0xFFFFFFFF ){
+                    synth.fr_1 = synth.f_g + touchX;
+                } else if (paintColor == 0xFF787878 ){
+                    synth.fr_1 = synth.g + touchX;
+                } else if (paintColor == 0xFF000000 ){
+                    synth.fr_1 = synth.a4 + touchX;
+                }
+
                 synth.amp = (int)event.getY();//volume
                 Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
@@ -157,11 +178,34 @@ public class DrawingView extends View {
 
                 //synth: changes pitch
                 synth.play_one = true;
-                synth.play_two = true;
-                synth.play_three = true;
-                synth.fr_1 = synth.shuffleArray(synth.pentatonic1) + touchX; //pitch
-                synth.fr_2 = synth.shuffleArray(synth.pentatonic1) + touchX;
-                synth.fr_3 = synth.shuffleArray(synth.pentatonic1) + touchX;
+
+
+                if (paintColor ==  0xFF660000) {
+                    synth.fr_1 = synth.a + touchX; //pitch
+                }else if (paintColor == 0xFFFF0000){
+                    synth.fr_1 = synth.a_b + touchX;
+                } else if (paintColor == 0xFFFF6600 ){
+                    synth.fr_1 = synth.b + touchX;
+                } else if (paintColor == 0xFFFFCC00 ){
+                    synth.fr_1 = synth.c + touchX;
+                } else if (paintColor == 0xFF009900 ){
+                    synth.fr_1 = synth.c_d + touchX;
+                } else if (paintColor == 0xFF009999 ){
+                    synth.fr_1 = synth.d + touchX;
+                } else if (paintColor == 0xFF0000FF ){
+                    synth.fr_1 = synth.d_e + touchX;
+                } else if (paintColor == 0xFF990099 ){
+                    synth.fr_1 = synth.e + touchX;
+                } else if (paintColor == 0xFFFF6666 ){
+                    synth.fr_1 = synth.f + touchX;
+                } else if (paintColor == 0xFFFFFFFF ){
+                    synth.fr_1 = synth.f_g + touchX;
+                } else if (paintColor == 0xFF787878 ){
+                    synth.fr_1 = synth.g + touchX;
+                } else if (paintColor == 0xFF000000 ){
+                    synth.fr_1 = synth.a4 + touchX;
+                }
+
 
                 synth.amp = (int) event.getY();//
                 Log.v("FREQUENCY", "" + synth.fr_1);
