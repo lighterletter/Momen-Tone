@@ -8,6 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by c4q-john on 9/3/15.
+ *
+ *
+ * This class is here in case we decide to somehow intergrate sensors into the app.
+ *
+ * Currently it's not connected to anything and does nothing.
  */
 public class SensorListener extends AppCompatActivity implements SensorEventListener {
 
@@ -24,7 +29,6 @@ public class SensorListener extends AppCompatActivity implements SensorEventList
 
 
     SoundGen synth;
-
 
     public SensorListener(SensorManager sensorManager) {
         this.sensorManager = sensorManager;

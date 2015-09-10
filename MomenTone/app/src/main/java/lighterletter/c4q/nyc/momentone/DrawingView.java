@@ -139,10 +139,8 @@ public class DrawingView extends View {
                 //Moves pointer to:
                 drawPath.moveTo(touchX,touchY);
 
-
                 //synth
                 synth.play_one = true;
-
 
                 if (paintColor ==  0xFF660000) {
                     synth.fr_1 = synth.a + touchX; //pitch
@@ -167,9 +165,8 @@ public class DrawingView extends View {
                 } else if (paintColor == 0xFF787878 ){
                     synth.fr_1 = synth.g + touchX;
                 } else if (paintColor == 0xFF000000 ){
-                    synth.fr_1 = synth.a4 + touchX;
+                    synth.fr_1 = synth.g_a + touchX;
                 }
-
 
                 synth.amp = (int)event.getY();//volume
                 Log.v("FREQUENCY", "" + synth.fr_1);
@@ -182,7 +179,6 @@ public class DrawingView extends View {
                 //synth: changes pitch
                 synth.play_one = true;
 
-
                 if (paintColor ==  0xFF660000) {
                     synth.fr_1 = synth.a + touchX; //pitch
                 }else if (paintColor == 0xFFFF0000){
@@ -206,10 +202,8 @@ public class DrawingView extends View {
                 } else if (paintColor == 0xFF787878 ){
                     synth.fr_1 = synth.g + touchX;
                 } else if (paintColor == 0xFF000000 ){
-                    synth.fr_1 = synth.a4 + touchX;
+                    synth.fr_1 = synth.g_a + touchX;
                 }
-
-
 
                 synth.amp = (int) event.getY();//
                 Log.v("FREQUENCY", "" + synth.fr_1);
@@ -220,17 +214,12 @@ public class DrawingView extends View {
                 drawCanvas.drawPath(drawPath,drawPaint);
                 drawPath.reset();
 
-
                 //synth: closes channel: (There must be a better to to do this)
-
 
                 synth.play_all = false;
                 synth.play_one = false;
-//                synth.play_two = false;
-//                synth.play_three = false;
 
                 break;
-
 
             // To be tested, not sure what this does yet but I put it here because it was in the code
             // for the onTouch. Must test.
@@ -245,7 +234,6 @@ public class DrawingView extends View {
         return true;
     }
 
-
     //TODO: Create some way to do a color fill.
     public void setColor(String newColor){
         //set color
@@ -257,12 +245,10 @@ public class DrawingView extends View {
 
     }
 
-
     public void startNew(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate(); //clears the canvas and updates the display.
     }
-
 
     //This was the code used before for finger synthesis in it's own dedicated class.
     // I put it here for reference and legacy purposes.

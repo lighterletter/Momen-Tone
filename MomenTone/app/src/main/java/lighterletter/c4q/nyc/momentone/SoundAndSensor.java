@@ -313,3 +313,6 @@
 //        }
 //    }
 //}
+
+//code in this class is here for reference. Some of it can be used in case we decide to use the
+//sensor

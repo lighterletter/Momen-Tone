@@ -29,7 +29,6 @@ public class SoundGen {
     double g    = 783.991;
     double g_a  = 830.609;
 
-
     //waveform
     int amp = 100000;
     double twoPi = 16. * Math.atan(1.);
@@ -59,13 +58,11 @@ public class SoundGen {
     double a3 = 220.f;
     //octave -1
 
-
 //    double g3 = 195.998;
 //    double f3 = 174.614;
 //    double e3 = 164.814;
 //    double d3 = 146.832;
 //    double c3 = 130.813;
-
 
     //synth
     AudioSynthesisTask audioSynth;
@@ -83,7 +80,6 @@ public class SoundGen {
     //scales/keys
     List<Double> pentatonic1;
     List<Double> pentatonic_0;
-
 
     boolean play_one = false;
     boolean play_two = false;
