@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SensorManager sensorManager;
 
     //synth
-//    SoundGen soundgen;
+    SoundGen soundgen;
 
     Toolbar toolbar;
 
@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        soundgen = new SoundGen();
 
         //sensor functionality:
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -294,6 +296,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             imgView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint_pressed));
             currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint));
             currPaint = (ImageButton) view;
+
+
         }
     }
 

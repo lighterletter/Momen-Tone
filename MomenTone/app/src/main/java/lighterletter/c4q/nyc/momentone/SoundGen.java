@@ -169,61 +169,61 @@ public class SoundGen {
                     audioTrack.stop();
                 }
 
-
-                if (play_two || play_all) {
-
-                    audioTrack1.play();
-
-
-                    for (int j = 0; j < buffSize; j++) {
-                        samples1[j] = (short) ((2 / Math.PI) * Math.asin(Math.sin(ph)) * amp);
-                        ph += twoPi * fr_2 / SAMPLE_RATE;
-                    }
-                    audioTrack1.write(samples1, 0, buffSize);
-                } else {
-                    audioTrack1.pause();
-                    audioTrack1.flush();
-                    audioTrack1.stop();
-                }
-
-                if (play_three || play_all) {
-                    audioTrack2.play();
-                    for (int n = 0; n < buffSize; n++) {
-                        samples2[n] = (short) (amp * Math.cos(ph));
-                        ph += twoPi * fr_3 / SAMPLE_RATE;
-                    }
-                    audioTrack2.write(samples2, 0, buffSize);
-                } else {
-                    audioTrack2.pause();
-                    audioTrack2.flush();
-                    audioTrack2.stop();
-                }
-
-                if (play_low) {
-                    lowAudioTrack.play();
-                    for (int n = 0; n < buffSize; n++) {
-                        samples2[n] = (short) (amp * Math.sin(ph));
-                        ph += twoPi * fr_4 / SAMPLE_RATE;
-                    }
-                    lowAudioTrack.write(lowSamples, 0, buffSize);
-                } else {
-                    lowAudioTrack.pause();
-                    lowAudioTrack.flush();
-                    lowAudioTrack.stop();
-                }
-                //step counter tracks
-                if (step_registered) {//On  step
-                    steptrack.play();
-                    for (int l = 0; l < buffSize; l++) {
-                        stepsamples[l] = (short) (amp * Math.sin(ph));
-                        ph += twoPi * step_fr_1 / SAMPLE_RATE;
-                    }
-                    steptrack.write(stepsamples, 0, buffSize);
-                } else {
-                    steptrack.pause();
-                    steptrack.flush();
-                    steptrack.stop();
-                }
+//
+//                if (play_two || play_all) {
+//
+//                    audioTrack1.play();
+//
+//
+//                    for (int j = 0; j < buffSize; j++) {
+//                        samples1[j] = (short) ((2 / Math.PI) * Math.asin(Math.sin(ph)) * amp);
+//                        ph += twoPi * fr_2 / SAMPLE_RATE;
+//                    }
+//                    audioTrack1.write(samples1, 0, buffSize);
+//                } else {
+//                    audioTrack1.pause();
+//                    audioTrack1.flush();
+//                    audioTrack1.stop();
+//                }
+//
+//                if (play_three || play_all) {
+//                    audioTrack2.play();
+//                    for (int n = 0; n < buffSize; n++) {
+//                        samples2[n] = (short) (amp * Math.cos(ph));
+//                        ph += twoPi * fr_3 / SAMPLE_RATE;
+//                    }
+//                    audioTrack2.write(samples2, 0, buffSize);
+//                } else {
+//                    audioTrack2.pause();
+//                    audioTrack2.flush();
+//                    audioTrack2.stop();
+//                }
+//
+//                if (play_low) {
+//                    lowAudioTrack.play();
+//                    for (int n = 0; n < buffSize; n++) {
+//                        samples2[n] = (short) (amp * Math.sin(ph));
+//                        ph += twoPi * fr_4 / SAMPLE_RATE;
+//                    }
+//                    lowAudioTrack.write(lowSamples, 0, buffSize);
+//                } else {
+//                    lowAudioTrack.pause();
+//                    lowAudioTrack.flush();
+//                    lowAudioTrack.stop();
+//                }
+//                //step counter tracks
+//                if (step_registered) {//On  step
+//                    steptrack.play();
+//                    for (int l = 0; l < buffSize; l++) {
+//                        stepsamples[l] = (short) (amp * Math.sin(ph));
+//                        ph += twoPi * step_fr_1 / SAMPLE_RATE;
+//                    }
+//                    steptrack.write(stepsamples, 0, buffSize);
+//                } else {
+//                    steptrack.pause();
+//                    steptrack.flush();
+//                    steptrack.stop();
+//                }
 
             }
         }
