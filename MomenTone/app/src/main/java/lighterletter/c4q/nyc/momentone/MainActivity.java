@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //represents the instance of the custom VIew that we added to the layout.
         DrawingView drawView;
     //main function buttons for the palette
-        ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
+        ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, shareBtn;
 
 
     // layout that contains button to retrieve the first paint color in the palette.
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sensei = new SensorListener(sensorManager);
 
         //draw functionality:
-        drawView = (DrawingView) findViewById(R.id.drawing);
+        drawView = (DrawingView) findViewById(R.id.canvas);
         paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
 
         //get the first button and store it as the instance variable:
@@ -95,30 +96,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveBtn = (ImageButton )findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
 
+        //share button
+        shareBtn = (ImageButton) findViewById(R.id.share_btn);
+        shareBtn.setOnClickListener(this);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar_top);
         setSupportActionBar(toolbar);
-//        final ActionBar ab = getSupportActionBar();
-//        ab.setIcon(R.drawable.ic_forward);
+        getSupportActionBar().setTitle("");
+
 
 
         mColorNavigationView = (NavigationView) findViewById(R.id.color_drawer);
         mToolNavigationView = (NavigationView) findViewById(R.id.tool_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        swipeRight = (ImageView) findViewById(R.id.swipe_right);
-        swipeLeft = (ImageView) findViewById(R.id.swipe_left);
+        swipeRight = (ImageView) findViewById(R.id.colors);
+        swipeLeft = (ImageView) findViewById(R.id.tools);
 
 
         swipeRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDrawerLayout.openDrawer(mColorNavigationView);
+                if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.LEFT);
+                    mDrawerLayout.openDrawer(mColorNavigationView);
+                }
+
             }
         });
 
         swipeLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDrawerLayout.openDrawer(mToolNavigationView);
+                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.RIGHT);
+                    mDrawerLayout.openDrawer(mToolNavigationView);
+                }
             }
         });
 
@@ -279,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //The method returns the URL of the image created, or null if the operation was unsuccessful
                     drawView.setDrawingCacheEnabled(true);
                     String imgSaved = MediaStore.Images.Media.insertImage(getContentResolver(),
-                            drawView.getDrawingCache(), UUID.randomUUID().toString()+".png","masterpiece");
+                            drawView.getDrawingCache(), UUID.randomUUID().toString()+".png","Masterpiece");
 
                     // - this lets us give user feedback:
                     if (imgSaved != null){
@@ -305,7 +321,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             saveDialog.show();
 
         }
-    }
+        else if (view.getId()==R.id.share_btn){
+
+//
+//            Intent intent = new Intent(Intent.ACTION_SEND);
+//                                intent.setType("image/jpeg");
+//
+//            intent.putExtra(Intent.EXTRA_STREAM, );
+//                                startActivity(Intent.createChooser(intent, "Share picture with..."));
+
+//            Intent share = new Intent(Intent.ACTION_SEND);
+//            share.setType("image/jpeg");
+//            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//            drawView.getDrawingCache().compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//            File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+//            try {
+//                f.createNewFile();
+//                FileOutputStream fo = new FileOutputStream(f);
+//                fo.write(bytes.toByteArray());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+//            startActivity(Intent.createChooser(share, "Share Image"));
+        }
+
+        }
 
     //Color Picker
     public void paintClicked(View view){

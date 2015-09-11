@@ -15,33 +15,38 @@ import java.util.List;
 public class SoundGen {
 
 
+
+
+
     //12 Note/Color  pairs mapped to sound. Ascending. Octave 4;
-    double a    = 440.f;   //yellow
-    double a_b  = 466.164; // 
-    double b    = 493.883;
-    double c    = 523.251;
-    double c_d  = 554.365;
-    double d    = 587.330;
-    double d_e  = 622.254;
-    double e    = 659.255;
-    double f    = 698.456;
+
+    double fs4  = 369.0; //deep red
+    double g4   = 390.0; //light red
+    double gs4  = 415.0; //lighter red
+    double a    = 440.f;//orange/red
+    double a_b  = 466.164;//orange
+    double b    = 493.883;//chatreuse/  yellow-green
+    double c    = 523.251;//green
+    double c_d  = 554.365;//teal
+    double d    = 587.330;//sky blue
+    double d_e  = 622.254;//blue
+    double e    = 659.255;//purple-blue
+    double f    = 698.456;//indigo
     double f_g  = 739.989;
     double g    = 783.991;
     double g_a  = 830.609;
 
     //waveform
     int amp = 100000;
-    double twoPi = 16. * Math.atan(1.);
+    double twoPi = 4. * Math.atan(1.);
     double fr = 440;
     double ph = 1.0;
-    final int SAMPLE_RATE = 11025 * 2;
+    final int SAMPLE_RATE = 22050 * 2;
 
     //frequencies
     //
     //C Major scale 3 octaves    c d,e,f,g,a,b,c
-//    double c6 = 1046.50;
-//    double b5 = 987.767;
-//    double a5 = 880.f;
+
     //pentatonic starting at 4th ocatave of A. for coding purposes its octave 1
     double gs5 = 830.609;
     double fs5 = 739.989;
@@ -50,8 +55,8 @@ public class SoundGen {
     double b4 = 493.883;
     double a4 = 440.f;
     //octave 0
-    double gs4 = 415.305;
-    double fs4 = 369.994;
+    //double gs4 = 415.305;
+    //double fs4 = 369.994;
     double ds4 = 311.127;
     double cs4 = 277.183;
     double b3 = 246.942;
@@ -135,7 +140,7 @@ public class SoundGen {
             audioTrack.play();
             AudioTrack audioTrack1 = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short samples1[] = new short[buffSize];
-//            audioTrack1.play();
+            audioTrack1.play();
             AudioTrack audioTrack2 = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize, AudioTrack.MODE_STREAM);
             short samples2[] = new short[buffSize];
 //            audioTrack2.play();
@@ -153,7 +158,6 @@ public class SoundGen {
 
                     audioTrack.play();
 
-
                     for (int l = 0; l < buffSize; l++) {
                         samples[l] = (short) (amp * Math.sin(ph));
                         ph += twoPi * fr_1 / SAMPLE_RATE;
@@ -165,14 +169,13 @@ public class SoundGen {
                     audioTrack.stop();
                 }
 
-//
 //                if (play_two || play_all) {
 //
 //                    audioTrack1.play();
 //
 //
 //                    for (int j = 0; j < buffSize; j++) {
-//                        samples1[j] = (short) ((2 / Math.PI) * Math.asin(Math.sin(ph)) * amp);
+//                        samples1[j] = (short) (amp * Math.sin(ph));//((2 / Math.PI) * Math.asin(Math.sin(ph)) * amp);
 //                        ph += twoPi * fr_2 / SAMPLE_RATE;
 //                    }
 //                    audioTrack1.write(samples1, 0, buffSize);

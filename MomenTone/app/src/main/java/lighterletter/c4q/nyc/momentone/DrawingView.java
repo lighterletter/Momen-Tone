@@ -18,7 +18,7 @@ import android.view.View;
 /**
  * Created by c4q-john on 9/2/15.
  * referenced from: http://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-interface-creation--mobile-19021
- *
+ * <p/>
  * This class connects with the main activity to handle the drawing features for the app.
  * Contains code that maps user input to pitch and volume control.
  */
@@ -48,15 +48,15 @@ public class DrawingView extends View {
 
     //eraser boolean
     private boolean erase = false;
-    public void setErase(boolean isErase){
+
+    public void setErase(boolean isErase) {
         //set erase true or false
         //update the flag variable
         erase = isErase;
         if (erase) {
             drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));//look up porter mode
             //Also PorterDuff.Mode options in the android docs for a more advanced topic to research
-        }
-        else{
+        } else {
             drawPaint.setXfermode(null);
         }
     }
@@ -94,7 +94,7 @@ public class DrawingView extends View {
     }
 
     //next three methods are called by the Main activity
-    public void setBrushSize(float newSize){
+    public void setBrushSize(float newSize) {
         //update brush size
         float pixelAmount = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 newSize, getResources().getDisplayMetrics());
@@ -102,10 +102,11 @@ public class DrawingView extends View {
         drawPaint.setStrokeWidth(brushSize); //passing values from dimens file. Could be turned into a seekbar.
     }
 
-    public void setLastBrushSize(float lastSize){
-         lastBrushSize = lastSize;
+    public void setLastBrushSize(float lastSize) {
+        lastBrushSize = lastSize;
     }
-    public float getLastBrushSize(){
+
+    public float getLastBrushSize() {
         return lastBrushSize;
     }
 
@@ -130,45 +131,54 @@ public class DrawingView extends View {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event){
+    public boolean onTouchEvent(MotionEvent event) {
         //detect user touch
         float touchX = event.getX();
         float touchY = event.getY();
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 //Moves pointer to:
-                drawPath.moveTo(touchX,touchY);
+                drawPath.moveTo(touchX, touchY);
 
                 //synth
+                synth.play_all = true;
                 synth.play_one = true;
+//                synth.play_two = true;
 
-                if (paintColor ==  0xFF660000) {
-                    synth.fr_1 = synth.a + touchX; //pitch
-                }else if (paintColor == 0xFFFF0000){
+
+                if (paintColor == 0x610000) { //dark re
+                    synth.fr_1 = synth.fs4 + touchX; //f#4
+                } else if (paintColor == 0xff0000) { // orange-red
+                    synth.fr_1 = synth.g4 + touchX;
+                } else if (paintColor == 0xff4f00) { // orange
+                    synth.fr_1 = synth.gs4 + touchX;
+                } else if (paintColor == 0xff8600) { //orange-yellow
+                    synth.fr_1 = synth.a + touchX;
+                } else if (paintColor == 0xf7ff00) { //yellow
                     synth.fr_1 = synth.a_b + touchX;
-                } else if (paintColor == 0xFFFF6600 ){
-                    synth.fr_1 = synth.b + touchX;
-                } else if (paintColor == 0xFFFFCC00 ){
-                    synth.fr_1 = synth.c + touchX;
-                } else if (paintColor == 0xFF009900 ){
-                    synth.fr_1 = synth.c_d + touchX;
-                } else if (paintColor == 0xFF009999 ){
+                } else if (paintColor == 0x92ff00) { //yellow-green
                     synth.fr_1 = synth.d + touchX;
-                } else if (paintColor == 0xFF0000FF ){
+                } else if (paintColor == 0x09ff00) { //green
                     synth.fr_1 = synth.d_e + touchX;
-                } else if (paintColor == 0xFF990099 ){
+                } else if (paintColor == 0x07ffe6) { //teal
                     synth.fr_1 = synth.e + touchX;
-                } else if (paintColor == 0xFFFF6666 ){
+                } else if (paintColor == 0xFF0000FF) { // blue
                     synth.fr_1 = synth.f + touchX;
-                } else if (paintColor == 0xFFFFFFFF ){
+                } else if (paintColor == 0x5800ff) { //purple
                     synth.fr_1 = synth.f_g + touchX;
-                } else if (paintColor == 0xFF787878 ){
+                } else if (paintColor == 0xFF990099) { //deep purple
                     synth.fr_1 = synth.g + touchX;
-                } else if (paintColor == 0xFF000000 ){
+                } else if (paintColor == 0xFFFF6666) { //skin
                     synth.fr_1 = synth.g_a + touchX;
+                } else if (paintColor == 0xFFFFFFFF) { //white
+                    synth.fr_1 = synth.shuffleArray(synth.pentatonic1);
+                } else if (paintColor == 0xFF787878) { //gray
+                    synth.fr_1 = synth.cs4 + touchX;
+                } else if (paintColor == 0xFF000000) {//black
+                    synth.fr_1 = synth.a3 + touchX;
                 }
 
-                synth.amp = (int)event.getY();//volume
+                synth.amp = (int) event.getY();//volume
                 Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
 
@@ -177,47 +187,56 @@ public class DrawingView extends View {
                 drawPath.lineTo(touchX, touchY);
 
                 //synth: changes pitch
+                synth.play_all = true;
                 synth.play_one = true;
+//                synth.play_two = true;
 
-                if (paintColor ==  0xFF660000) {
-                    synth.fr_1 = synth.a + touchX; //pitch
-                }else if (paintColor == 0xFFFF0000){
+
+                if (paintColor == 0x610000) { //dark red
+                    synth.fr_1 = synth.fs4 + touchX; //f#4
+                } else if (paintColor == 0xff0000) { // orange-red
+                    synth.fr_1 = synth.g4 + touchX;
+                } else if (paintColor == 0xff4f00) { // orange
+                    synth.fr_1 = synth.gs4 + touchX;
+                } else if (paintColor == 0xff8600) { //orange-yellow
+                    synth.fr_1 = synth.a + touchX;
+                } else if (paintColor == 0xf7ff00) { //yellow
                     synth.fr_1 = synth.a_b + touchX;
-                } else if (paintColor == 0xFFFF6600 ){
-                    synth.fr_1 = synth.b + touchX;
-                } else if (paintColor == 0xFFFFCC00 ){
-                    synth.fr_1 = synth.c + touchX;
-                } else if (paintColor == 0xFF009900 ){
-                    synth.fr_1 = synth.c_d + touchX;
-                } else if (paintColor == 0xFF009999 ){
+                } else if (paintColor == 0x92ff00) { //yellow-green
                     synth.fr_1 = synth.d + touchX;
-                } else if (paintColor == 0xFF0000FF ){
+                } else if (paintColor == 0x09ff00) { //green
                     synth.fr_1 = synth.d_e + touchX;
-                } else if (paintColor == 0xFF990099 ){
+                } else if (paintColor == 0x07ffe6) { //teal
                     synth.fr_1 = synth.e + touchX;
-                } else if (paintColor == 0xFFFF6666 ){
+                } else if (paintColor == 0xFF0000FF) { // blue
                     synth.fr_1 = synth.f + touchX;
-                } else if (paintColor == 0xFFFFFFFF ){
+                } else if (paintColor == 0x5800ff) { //purple
                     synth.fr_1 = synth.f_g + touchX;
-                } else if (paintColor == 0xFF787878 ){
+                } else if (paintColor == 0xFF990099) { //deep purple
                     synth.fr_1 = synth.g + touchX;
-                } else if (paintColor == 0xFF000000 ){
+                } else if (paintColor == 0xFFFF6666) { //skin
                     synth.fr_1 = synth.g_a + touchX;
+                } else if (paintColor == 0xFFFFFFFF) { //white
+                    synth.fr_1 = synth.shuffleArray(synth.pentatonic1);
+                } else if (paintColor == 0xFF787878) { //gray
+                    synth.fr_1 = synth.cs4 + touchX;
+                } else if (paintColor == 0xFF000000) {//black
+                    synth.fr_1 = synth.a3 + touchX;
                 }
-
                 synth.amp = (int) event.getY();//
                 Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
 
             case MotionEvent.ACTION_UP:
                 //draw: sets path.
-                drawCanvas.drawPath(drawPath,drawPaint);
+                drawCanvas.drawPath(drawPath, drawPaint);
                 drawPath.reset();
 
                 //synth: closes channel: (There must be a better to to do this)
 
                 synth.play_all = false;
                 synth.play_one = false;
+//                synth.play_two = false;
 
                 break;
 
@@ -235,7 +254,7 @@ public class DrawingView extends View {
     }
 
     //TODO: Create some way to do a color fill.
-    public void setColor(String newColor){
+    public void setColor(String newColor) {
         //set color
 
         //start by invalidating the View
@@ -245,7 +264,7 @@ public class DrawingView extends View {
 
     }
 
-    public void startNew(){
+    public void startNew() {
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate(); //clears the canvas and updates the display.
     }

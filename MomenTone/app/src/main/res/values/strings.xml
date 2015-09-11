@@ -16,6 +16,7 @@
     <string name="brush">Brush</string>
     <string name="erase">Erase</string>
     <string name="save">Save</string>
+    <string name="share">Share</string>
     <string name="paint">Paint</string>
     <!--brush size strings in brush picker dialogue-->
     <string name="sml">Small</string>
