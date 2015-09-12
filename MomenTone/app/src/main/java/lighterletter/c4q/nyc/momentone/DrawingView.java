@@ -139,45 +139,46 @@ public class DrawingView extends View {
             case MotionEvent.ACTION_DOWN:
                 //Moves pointer to:
                 drawPath.moveTo(touchX, touchY);
-
                 //synth
-                synth.play_all = true;
-                synth.play_one = true;
+//                synth.play_all = true;
+//                synth.play_one = true;
 //                synth.play_two = true;
 
+//                Log.v("paintcolor", "" + paintColor);
+                synth.play_one = true;
 
-                if (paintColor == 0x610000) { //dark re
-                    synth.fr_1 = synth.fs4 + touchX; //f#4
+                if (paintColor == 0x610000) { //dark red
+                    synth.fr_1 = synth.fs4 ; //f#4
                 } else if (paintColor == 0xff0000) { // orange-red
-                    synth.fr_1 = synth.g4 + touchX;
+                    synth.fr_1 = synth.g4 ;
                 } else if (paintColor == 0xff4f00) { // orange
-                    synth.fr_1 = synth.gs4 + touchX;
+                    synth.fr_1 = synth.gs4 ;
                 } else if (paintColor == 0xff8600) { //orange-yellow
-                    synth.fr_1 = synth.a + touchX;
+                    synth.fr_1 = synth.a ;
                 } else if (paintColor == 0xf7ff00) { //yellow
-                    synth.fr_1 = synth.a_b + touchX;
+                    synth.fr_1 = synth.a_b ;
                 } else if (paintColor == 0x92ff00) { //yellow-green
-                    synth.fr_1 = synth.d + touchX;
+                    synth.fr_1 = synth.b ;
                 } else if (paintColor == 0x09ff00) { //green
-                    synth.fr_1 = synth.d_e + touchX;
+                    synth.fr_1 = synth.c ;
                 } else if (paintColor == 0x07ffe6) { //teal
-                    synth.fr_1 = synth.e + touchX;
+                    synth.fr_1 = synth.c_d ;
                 } else if (paintColor == 0xFF0000FF) { // blue
-                    synth.fr_1 = synth.f + touchX;
+                    synth.fr_1 = synth.d ;
                 } else if (paintColor == 0x5800ff) { //purple
-                    synth.fr_1 = synth.f_g + touchX;
+                    synth.fr_1 = synth.d_e ;
                 } else if (paintColor == 0xFF990099) { //deep purple
-                    synth.fr_1 = synth.g + touchX;
+                    synth.fr_1 = synth.e ;
                 } else if (paintColor == 0xFFFF6666) { //skin
-                    synth.fr_1 = synth.g_a + touchX;
+                    synth.fr_1 = synth.f ;
                 } else if (paintColor == 0xFFFFFFFF) { //white
                     synth.fr_1 = synth.shuffleArray(synth.pentatonic1);
                 } else if (paintColor == 0xFF787878) { //gray
-                    synth.fr_1 = synth.cs4 + touchX;
+                    synth.fr_1 = synth.f_g ;
                 } else if (paintColor == 0xFF000000) {//black
-                    synth.fr_1 = synth.a3 + touchX;
+                    synth.fr_1 = synth.a3 ;
                 }
-
+                synth.fr_1 +=  touchX;
                 synth.amp = (int) event.getY();//volume
                 Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
@@ -187,42 +188,42 @@ public class DrawingView extends View {
                 drawPath.lineTo(touchX, touchY);
 
                 //synth: changes pitch
-                synth.play_all = true;
-                synth.play_one = true;
+//                synth.play_all = true;
 //                synth.play_two = true;
-
+                synth.play_one = true;
 
                 if (paintColor == 0x610000) { //dark red
-                    synth.fr_1 = synth.fs4 + touchX; //f#4
+                    synth.fr_1 = synth.fs4 ; //f#4
                 } else if (paintColor == 0xff0000) { // orange-red
-                    synth.fr_1 = synth.g4 + touchX;
+                    synth.fr_1 = synth.g4 ;
                 } else if (paintColor == 0xff4f00) { // orange
-                    synth.fr_1 = synth.gs4 + touchX;
+                    synth.fr_1 = synth.gs4 ;
                 } else if (paintColor == 0xff8600) { //orange-yellow
-                    synth.fr_1 = synth.a + touchX;
+                    synth.fr_1 = synth.a ;
                 } else if (paintColor == 0xf7ff00) { //yellow
-                    synth.fr_1 = synth.a_b + touchX;
+                    synth.fr_1 = synth.a_b ;
                 } else if (paintColor == 0x92ff00) { //yellow-green
-                    synth.fr_1 = synth.d + touchX;
+                    synth.fr_1 = synth.b ;
                 } else if (paintColor == 0x09ff00) { //green
-                    synth.fr_1 = synth.d_e + touchX;
+                    synth.fr_1 = synth.c ;
                 } else if (paintColor == 0x07ffe6) { //teal
-                    synth.fr_1 = synth.e + touchX;
+                    synth.fr_1 = synth.c_d ;
                 } else if (paintColor == 0xFF0000FF) { // blue
-                    synth.fr_1 = synth.f + touchX;
+                    synth.fr_1 = synth.d ;
                 } else if (paintColor == 0x5800ff) { //purple
-                    synth.fr_1 = synth.f_g + touchX;
+                    synth.fr_1 = synth.d_e ;
                 } else if (paintColor == 0xFF990099) { //deep purple
-                    synth.fr_1 = synth.g + touchX;
+                    synth.fr_1 = synth.e ;
                 } else if (paintColor == 0xFFFF6666) { //skin
-                    synth.fr_1 = synth.g_a + touchX;
+                    synth.fr_1 = synth.f ;
                 } else if (paintColor == 0xFFFFFFFF) { //white
                     synth.fr_1 = synth.shuffleArray(synth.pentatonic1);
                 } else if (paintColor == 0xFF787878) { //gray
-                    synth.fr_1 = synth.cs4 + touchX;
+                    synth.fr_1 = synth.f_g ;
                 } else if (paintColor == 0xFF000000) {//black
-                    synth.fr_1 = synth.a3 + touchX;
+                    synth.fr_1 = synth.a3 ;
                 }
+                synth.fr_1 +=  touchX;
                 synth.amp = (int) event.getY();//
                 Log.v("FREQUENCY", "" + synth.fr_1);
                 break;
@@ -233,10 +234,7 @@ public class DrawingView extends View {
                 drawPath.reset();
 
                 //synth: closes channel: (There must be a better to to do this)
-
-                synth.play_all = false;
                 synth.play_one = false;
-//                synth.play_two = false;
 
                 break;
 
@@ -244,7 +242,6 @@ public class DrawingView extends View {
             // for the onTouch. Must test.
 //            case MotionEvent.ACTION_CANCEL:
 //                break;
-
             default:
                 return false;
         }

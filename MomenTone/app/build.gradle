@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "lighterletter.c4q.nyc.momentone"
-        minSdkVersion 21
+        minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"

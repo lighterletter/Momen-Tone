@@ -20,28 +20,28 @@ public class SoundGen {
 
     //12 Note/Color  pairs mapped to sound. Ascending. Octave 4;
 
-    double fs4  = 369.0; //deep red
-    double g4   = 390.0; //light red
-    double gs4  = 415.0; //lighter red
-    double a    = 440.f;//orange/red
-    double a_b  = 466.164;//orange
-    double b    = 493.883;//chatreuse/  yellow-green
-    double c    = 523.251;//green
-    double c_d  = 554.365;//teal
-    double d    = 587.330;//sky blue
-    double d_e  = 622.254;//blue
-    double e    = 659.255;//purple-blue
-    double f    = 698.456;//indigo
-    double f_g  = 739.989;
-    double g    = 783.991;
-    double g_a  = 830.609;
+    public double fs4  = 369.0; //deep red
+    public double g4   = 390.0; //light red
+    public double gs4  = 415.0; //lighter red
+    public double a    = 440.f;//orange/red
+    public double a_b  = 466.164;//orange
+    public double b    = 493.883;//chatreuse/  yellow-green
+    public double c    = 523.251;//green
+    public double c_d  = 554.365;//teal
+    public double d    = 587.330;//sky blue
+    public double d_e  = 622.254;//blue
+    public double e    = 659.255;//purple-blue
+    public double f    = 698.456;//indigo
+    public double f_g  = 739.989;
+    public double g    = 783.991;
+    public double g_a  = 830.609;
 
     //waveform
-    int amp = 100000;
-    double twoPi = 4. * Math.atan(1.);
+    int amp = 10000;
+    double twoPi = 8. * Math.atan(1.);
     double fr = 440;
-    double ph = 1.0;
-    final int SAMPLE_RATE = 22050 * 2;
+    double ph = 0;
+    final int SAMPLE_RATE = 11025 * 2;
 
     //frequencies
     //
@@ -154,7 +154,7 @@ public class SoundGen {
             while (true) {
 
 
-                if (play_one || play_all) {//On touch
+                if (play_one) {//On touch
 
                     audioTrack.play();
 

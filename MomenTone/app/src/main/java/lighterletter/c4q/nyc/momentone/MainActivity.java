@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //The method returns the URL of the image created, or null if the operation was unsuccessful
                     drawView.setDrawingCacheEnabled(true);
                     String imgSaved = MediaStore.Images.Media.insertImage(getContentResolver(),
-                            drawView.getDrawingCache(), UUID.randomUUID().toString()+".png","Masterpiece");
+                            drawView.getDrawingCache(), UUID.randomUUID().toString()+".jpeg","Masterpiece");
 
                     // - this lets us give user feedback:
                     if (imgSaved != null){
