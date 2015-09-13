@@ -8,7 +8,7 @@
         android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#000000">
+        android:background="@drawable/splash_screen_background">
 
 
         <ImageView
@@ -18,13 +18,20 @@
             android:layout_gravity="left"
             android:src="@drawable/choose_color_icon" />
 
+        <ImageView
+            android:id="@+id/action_bar_logo"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:src="@drawable/whitelogoresize" />
 
         <ImageView
             android:id="@+id/tools"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="right"
-            android:src="@drawable/choose_tool_icon" />
+            android:src="@drawable/choose_tool_icon"
+            android:layout_marginRight="15dp"/>
 
 
     </android.support.v7.widget.Toolbar>
@@ -48,7 +55,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="#232423"
+            android:background="#2c4d7a"
             app:menu="@menu/drawer">
 
             <LinearLayout
@@ -230,7 +237,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:background="#000000"
+            android:background="#61a3d8"
             app:menu="@menu/drawer">
             <!--TODO: unless you create your own icons credit their origin: http://www.flaticon.com/ -->
             <LinearLayout
