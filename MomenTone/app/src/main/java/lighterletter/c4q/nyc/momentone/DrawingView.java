@@ -159,7 +159,7 @@ public class DrawingView extends View {
                     synth.fr_1 = synth.a_b ;
                 } else if (paintColor == 0x92ff00) { //yellow-green
                     synth.fr_1 = synth.b ;
-                } else if (paintColor == 0x09ff00) { //green
+                } else if (paintColor == 0x00c300) { //green
                     synth.fr_1 = synth.c ;
                 } else if (paintColor == 0x07ffe6) { //teal
                     synth.fr_1 = synth.c_d ;
@@ -204,7 +204,7 @@ public class DrawingView extends View {
                     synth.fr_1 = synth.a_b ;
                 } else if (paintColor == 0x92ff00) { //yellow-green
                     synth.fr_1 = synth.b ;
-                } else if (paintColor == 0x09ff00) { //green
+                } else if (paintColor == 0x00c300) { //green
                     synth.fr_1 = synth.c ;
                 } else if (paintColor == 0x07ffe6) { //teal
                     synth.fr_1 = synth.c_d ;
