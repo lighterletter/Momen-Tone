@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.util.UUID;
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //represents the instance of the custom VIew that we added to the layout.
         DrawingView drawView;
     //main function buttons for the palette
-        ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, shareBtn;
+        ImageView currPaint, drawBtn, eraseBtn, newBtn, saveBtn, shareBtn;
 
 
     // layout that contains button to retrieve the first paint color in the palette.
@@ -37,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Brush size: To store three dimension values defined in dimens,
     // TODO: transfer into a seekbar or something similar
     private float smallBrush, mediumBrush, largeBrush;
+
 
     SensorListener sensei;
     //sensor manager passed to sensor class.
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
 
         //get the first button and store it as the instance variable:
-        currPaint = (ImageButton) paintLayout.getChildAt(0);
+        currPaint = (ImageView) paintLayout.getChildAt(0);
         // sets alternate options for when the button is pressed.
         currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint_pressed));
         //size
@@ -78,26 +78,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         largeBrush = getResources().getInteger(R.integer.large_size);
 
         //add another for the drawing button.
-        drawBtn = (ImageButton) findViewById(R.id.draw_btn);
+        drawBtn = (ImageView) findViewById(R.id.draw_btn);
         drawBtn.setOnClickListener(this);
 
         // default brush size
         drawView.setBrushSize(mediumBrush);
 
         //erase button
-        eraseBtn = (ImageButton) findViewById(R.id.erase_btn);
+        eraseBtn = (ImageView) findViewById(R.id.erase_btn);
         eraseBtn.setOnClickListener(this);
 
         //new canvas button
-        newBtn = (ImageButton) findViewById(R.id.new_btn);
+        newBtn = (ImageView) findViewById(R.id.new_btn);
         newBtn.setOnClickListener(this);
 
         //save drawing button
-        saveBtn = (ImageButton )findViewById(R.id.save_btn);
+        saveBtn = (ImageView )findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
 
         //share button
-        shareBtn = (ImageButton) findViewById(R.id.share_btn);
+        shareBtn = (ImageView) findViewById(R.id.share_btn);
         shareBtn.setOnClickListener(this);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_top);
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         swipeRight = (ImageView) findViewById(R.id.colors);
         swipeLeft = (ImageView) findViewById(R.id.tools);
 
-
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         swipeRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,9 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-
     }
-
 
     //To implement for flow control if we end up using the sensors for continous playback.
 //    @Override
@@ -169,8 +167,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             brushDialog.setTitle("Brush size: ");
             //set the layout (contentView into Dialogue object)
             brushDialog.setContentView(R.layout.brush_size_picker_dialoge_layout);
-
-
             //Listen for clicks on the three size buttons, starting with the small one:
             ImageButton smallBtn = (ImageButton) brushDialog.findViewById(R.id.small_brush);
             smallBtn.setOnClickListener(new View.OnClickListener() {

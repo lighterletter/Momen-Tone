@@ -237,42 +237,53 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/new_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:contentDescription="@string/start_new"
-                    android:src="@drawable/new_drawing" />
+                    android:src="@drawable/new_drawing"
+                    android:layout_marginBottom="25dp"
+                    />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/draw_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:contentDescription="@string/brush"
-                    android:src="@drawable/paint_brush" />
+                    android:src="@drawable/paint_brush"
+                    android:layout_marginBottom="25dp"
+                    />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/erase_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:contentDescription="@string/erase"
-                    android:src="@drawable/eraser_icon" />
+                    android:src="@drawable/white_eraser"
+                    android:layout_marginBottom="25dp"
+                    />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/save_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:contentDescription="@string/save"
-                    android:src="@drawable/save_icon" />
+                    android:src="@drawable/save_icon"
+                    android:layout_marginBottom="25dp"
+                    />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/share_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:contentDescription="@string/share"
-                    android:src="@drawable/share_icon" />
+                    android:src="@drawable/share_icon"
+                    android:layout_marginBottom="25dp"
+                    />
 
             </LinearLayout>
 

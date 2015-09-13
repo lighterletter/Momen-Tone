@@ -2,13 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3b6e93"
+    android:background="@drawable/splash_screen_background"
     tools:context="lighterletter.c4q.nyc.momentone.SplashScreen">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/logo" />
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/whitelogoresize"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
