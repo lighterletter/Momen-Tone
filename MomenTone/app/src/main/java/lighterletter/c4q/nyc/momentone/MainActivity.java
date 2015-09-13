@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayout paintLayout;
     //Brush size: To store three dimension values defined in dimens,
     // TODO: transfer into a seekbar or something similar
-    private float smallBrush, mediumBrush, largeBrush;
+    private float smallBrush, mediumBrush, largeBrush, xlargeBrush;
 
 
     SensorListener sensei;
@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         smallBrush = getResources().getInteger(R.integer.small_size);
         mediumBrush = getResources().getInteger(R.integer.medium_size);
         largeBrush = getResources().getInteger(R.integer.large_size);
+        xlargeBrush = getResources().getInteger(R.integer.xlarge_size);
 
         //add another for the drawing button.
         drawBtn = (ImageView) findViewById(R.id.draw_btn);
@@ -204,6 +205,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.v("Somethings been clicked", "large brush selected");
                 }
             });
+            ImageButton xlargeBtn = (ImageButton) brushDialog.findViewById(R.id.xlarge_brush);
+            xlargeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawView.setErase(false);
+                    drawView.setBrushSize(xlargeBrush);
+                    drawView.setLastBrushSize(xlargeBrush);
+                    brushDialog.dismiss();
+
+                    Log.v("Somethings been clicked", "large brush selected");
+                }
+            });
             //complete draw button section of Onclick by dysplaying Dialog:
             brushDialog.show();
 
@@ -245,6 +258,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(View v) {
                     drawView.setErase(true);
                     drawView.setBrushSize(largeBrush);
+                    brushDialog.dismiss();
+                    Log.v("Somethings been clicked", "large erase selected");
+                }
+            });
+            ImageButton xlargeBtn = (ImageButton) brushDialog.findViewById(R.id.xlarge_brush);
+            xlargeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawView.setErase(true);
+                    drawView.setBrushSize(xlargeBrush);
                     brushDialog.dismiss();
                     Log.v("Somethings been clicked", "large erase selected");
                 }

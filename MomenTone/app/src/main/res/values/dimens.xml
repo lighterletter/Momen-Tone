@@ -10,6 +10,8 @@
     <integer name="medium_size">20</integer>
     <dimen name="large_brush">30dp</dimen>
     <integer name="large_size">30</integer>
+    <dimen name="xlarge_brush">50dp</dimen>
+    <integer name="xlarge_size">50</integer>
     <!-- the values of the brush and it's size are the same so UI indicates the brush size
     as it will function Move and adjust to dimens if necessary.-->
 
