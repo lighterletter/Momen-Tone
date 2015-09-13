@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.util.UUID;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Brush size: To store three dimension values defined in dimens,
     // TODO: transfer into a seekbar or something similar
     private float smallBrush, mediumBrush, largeBrush;
-
 
     SensorListener sensei;
     //sensor manager passed to sensor class.
@@ -139,7 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
+
     }
+
 
     //To implement for flow control if we end up using the sensors for continous playback.
 //    @Override
@@ -167,6 +169,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             brushDialog.setTitle("Brush size: ");
             //set the layout (contentView into Dialogue object)
             brushDialog.setContentView(R.layout.brush_size_picker_dialoge_layout);
+
+
             //Listen for clicks on the three size buttons, starting with the small one:
             ImageButton smallBtn = (ImageButton) brushDialog.findViewById(R.id.small_brush);
             smallBtn.setOnClickListener(new View.OnClickListener() {

@@ -2,7 +2,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:id="@+id/dialog_root">
+
+
 
     <ImageButton
         android:layout_width="wrap_content"
