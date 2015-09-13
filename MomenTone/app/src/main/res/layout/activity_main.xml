@@ -250,7 +250,7 @@
                 <ImageView
                     android:id="@+id/new_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="35dp"
                     android:contentDescription="@string/start_new"
                     android:src="@drawable/new_drawing"
                     android:layout_marginBottom="25dp"
@@ -259,7 +259,7 @@
                 <ImageView
                     android:id="@+id/draw_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="35dp"
                     android:contentDescription="@string/brush"
                     android:src="@drawable/paint_brush"
                     android:layout_marginBottom="25dp"
@@ -268,7 +268,7 @@
                 <ImageView
                     android:id="@+id/erase_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="35dp"
                     android:contentDescription="@string/erase"
                     android:src="@drawable/white_eraser"
                     android:layout_marginBottom="25dp"
@@ -277,7 +277,7 @@
                 <ImageView
                     android:id="@+id/save_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="35dp"
                     android:contentDescription="@string/save"
                     android:src="@drawable/save_icon"
                     android:layout_marginBottom="25dp"
@@ -286,7 +286,7 @@
                 <ImageView
                     android:id="@+id/share_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="35dp"
                     android:contentDescription="@string/share"
                     android:src="@drawable/share_icon"
                     android:layout_marginBottom="25dp"

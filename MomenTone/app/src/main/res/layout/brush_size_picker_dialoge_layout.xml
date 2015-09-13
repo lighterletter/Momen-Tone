@@ -1,33 +1,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    android:id="@+id/dialog_root">
-
+    android:paddingBottom="15dp">
 
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
         android:id="@+id/small_brush"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
+        android:background="@android:color/transparent"
         android:contentDescription="@string/sml"
-        android:src="@drawable/small_brush_size_ic"/>
+        android:src="@drawable/small_brush_size_ic" />
+
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
         android:id="@+id/medium_brush"
-        android:layout_weight="1"
-        android:contentDescription="@string/med"
-        android:src="@drawable/medium_brush_size_ic"
-        />
-    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:id="@+id/large_brush"
+        android:layout_marginBottom="15dp"
         android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/med"
+        android:src="@drawable/medium_brush_size_ic" />
+
+    <ImageButton
+        android:id="@+id/large_brush"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
         android:contentDescription="@string/lrg"
-        android:src="@drawable/large_brush_size_ic"/>
+        android:src="@drawable/large_brush_size_ic" />
+
+    <ImageButton
+        android:id="@+id/xlarge_brush"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/xlrg"
+        android:src="@drawable/xlarge_brush_size_ic" />
 
 </LinearLayout>
