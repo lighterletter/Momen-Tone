@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tool_drawer_buttons_height">30dp</dimen>
+    <dimen name="tool_drawer_buttons_bottom_margin">10dp</dimen>
+    <dimen name="color_drawer_button_size">28dp</dimen>
+
+</resources>
