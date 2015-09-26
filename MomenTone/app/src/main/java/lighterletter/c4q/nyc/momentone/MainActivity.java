@@ -3,10 +3,11 @@ package lighterletter.c4q.nyc.momentone;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -71,7 +72,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         soundgen = new SoundGen();
+
+        //setup "artboard" and view for background image:
         masterpiece = (FrameLayout) findViewById(R.id.masterpiece);
+        backgroundImage = (ImageView) findViewById(R.id.background_image);
 
         //draw functionality:
         drawView = (DrawingView) findViewById(R.id.canvas);
@@ -290,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // TODO: ensure all elements clear correctly -- does setbgresource add the white?
-                    masterpiece.setBackgroundResource(0); // clear any existing background image
+                    backgroundImage.setImageDrawable(null); // clear any existing background image
                     drawView.startNew();
                     dialog.dismiss();
                     Log.v("Somethings been clicked", "new drawing dialog check");
@@ -318,9 +322,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(DialogInterface dialog, int which) {
 
                     // import image from gallery
-                    Intent openGallery = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    openGallery.setType("image/*");
-                    startActivityForResult(openGallery, RESULT_LOAD_IMG);
+
+                    Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(i, RESULT_LOAD_IMG);
+
+//                    Intent openGallery = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                    openGallery.setType("image/*");
+//                    startActivityForResult(openGallery, RESULT_LOAD_IMG);
 
                     dialog.dismiss();
                     Log.v("Somethings been clicked", "import background image dialog check");
@@ -420,17 +428,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // After action complete, set imported image as background
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK) {
-            try {
-                final Uri selectedImage = data.getData();
-                getContentResolver().notifyChange(selectedImage, null);
-                ContentResolver cr = getContentResolver();
-                bmImage = MediaStore.Images.Media.getBitmap(cr, selectedImage);
-                backgroundImage.setImageBitmap(bmImage);
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
+                // get image from data
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            } catch (Exception e) {
-                Toast.makeText(this, "An error occurred", Toast.LENGTH_SHORT).show();
+                // get cursor
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+
+                // move to first row
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String imgDecodableString = cursor.getString(columnIndex);
+                cursor.close();
+
+                ImageView backgroundImage = (ImageView) findViewById(R.id.background_image);
+
+                // set image as background after decoding string
+                backgroundImage.setImageBitmap(BitmapFactory
+                        .decodeFile(imgDecodableString));
+
+            } else {
+                Toast.makeText(this, "You haven't picked an image",
+                        Toast.LENGTH_LONG).show();
             }
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
         }
     }
 }
