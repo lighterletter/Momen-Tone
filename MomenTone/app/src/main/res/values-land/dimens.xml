@@ -3,5 +3,7 @@
     <dimen name="tool_drawer_buttons_height">30dp</dimen>
     <dimen name="tool_drawer_buttons_bottom_margin">10dp</dimen>
     <dimen name="color_drawer_button_size">28dp</dimen>
+    <dimen name="color_container_width">80dp</dimen>
+
 
 </resources>
