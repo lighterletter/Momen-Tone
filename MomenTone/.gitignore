@@ -1,8 +1,46 @@
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse project files
+.classpath
+.project
+
+# IntelliJ ignores
+.idea
+*.iml
+*.ipr
+*.iws
+*/.idea/
+local.properties
+out
+
+# Generic Android ignores
+target
+gen-external-apklibs/
+
+#Maven
+target
+release.properties
+pom.xml.*
+
+# Folder containing all the Google Play APKs
+apks
+
+documents/oldVersionCode
+
+# generated files
+**/build/*
+
+# OSX files
 .DS_Store
-/build
-/captures
-release.jks
+
+# Android Studio
+.gradle
+build/
+
+/*/out
+/*/*/build
+/*/*/production
+*~
+*.swp
