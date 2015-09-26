@@ -293,7 +293,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // TODO: ensure all elements clear correctly -- does setbgresource add the white?
                     backgroundImage.setImageDrawable(null); // clear any existing background image
                     drawView.startNew();
                     dialog.dismiss();
@@ -322,13 +321,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(DialogInterface dialog, int which) {
 
                     // import image from gallery
+                    /** TODO:
+                     * 1.) Re-scale large bitmaps in order to optimize canvas painting performance.
+                     * 2.) Play with scaleType in XML --or-- allow user to crop/scale image in view.
+                     */
 
-                    Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent i = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(i, RESULT_LOAD_IMG);
-
-//                    Intent openGallery = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                    openGallery.setType("image/*");
-//                    startActivityForResult(openGallery, RESULT_LOAD_IMG);
 
                     dialog.dismiss();
                     Log.v("Somethings been clicked", "import background image dialog check");
