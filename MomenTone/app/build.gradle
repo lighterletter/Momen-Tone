@@ -25,9 +25,9 @@ android {
             keyPassword "$releasePassword"
         }
 
-        debug {
-            storeFile file("debug.keystore")
-        }
+//        debug {
+//            storeFile file("debug.keystore")
+//        }
     }
 
     buildTypes {
