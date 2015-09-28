@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -255,5 +257,36 @@ public class DrawingView extends View {
     public void startNew() {
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate(); //clears the canvas and updates the display.
+    }
+
+    /*
+     * Overriding the custom view's save instance state and restore state to capture
+     * the values that are needed for orientation changes.
+     * If the values should persist after app is closed, then you can save the values in
+     * shared preferences. Not sure if that is what you wanted.
+     */
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("instanceState", super.onSaveInstanceState());
+//        bundle.putParcelable("drawCanvas", (Parcelable) this.drawCanvas);
+        bundle.putParcelable("canvasBitmap", this.canvasBitmap);
+        bundle.putInt("paintColor", this.paintColor);
+
+        return bundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+
+        if(state instanceof Bundle){
+            Bundle bundle = (Bundle) state;
+//            this.drawCanvas = bundle.getParcelable("drawCanvas");
+            this.canvasBitmap = bundle.getParcelable("canvasBitmap");
+
+            state = bundle.getParcelable("instanceState");
+        }
+
+        super.onRestoreInstanceState(state);
     }
 }
