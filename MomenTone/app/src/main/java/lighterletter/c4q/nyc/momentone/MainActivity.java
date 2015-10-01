@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,10 +35,16 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //constants
+    private static final int RESULT_LOAD_IMG = 1;
+
+    FrameLayout masterpiece;
+    Bitmap bmImage;
+
     //represents the instance of the custom VIew that we added to the layout.
     DrawingView drawView;
     //main function buttons for the palette
-    ImageView currPaint, drawBtn, eraseBtn, newBtn, saveBtn, shareBtn;
+    ImageView backgroundImage, bgImgBtn, currPaint, drawBtn, eraseBtn, newBtn, saveBtn, shareBtn;
 
     // layout that contains button to retrieve the first paint color in the palette.
     LinearLayout paintLayout;
@@ -64,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         soundgen = new SoundGen();
 
+        //setup "artboard" and view for background image:
+        masterpiece = (FrameLayout) findViewById(R.id.masterpiece);
+        backgroundImage = (ImageView) findViewById(R.id.background_image);
 
         //draw functionality:
         drawView = (DrawingView) findViewById(R.id.canvas);
@@ -93,6 +105,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //new canvas button
         newBtn = (ImageView) findViewById(R.id.new_btn);
         newBtn.setOnClickListener(this);
+
+        //import background image button
+        bgImgBtn = (ImageView) findViewById(R.id.bg_img_btn);
+        bgImgBtn.setOnClickListener(this);
 
         //save drawing button
         saveBtn = (ImageView) findViewById(R.id.save_btn);
@@ -277,6 +293,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    backgroundImage.setImageDrawable(null); // clear any existing background image
                     drawView.startNew();
                     dialog.dismiss();
                     Log.v("Somethings been clicked", "new drawing dialog check");
@@ -291,6 +308,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
             newDialog.show();
 
+        } //BG IMG BUTTON
+        else if (view.getId() == R.id.bg_img_btn) {
+
+            // alert user that current canvas will be replaced
+            Log.v("Somethings been clicked", "import background image is clicked!");
+            AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
+            newDialog.setTitle("Import background image");
+            newDialog.setMessage("Import background image? Current masterpiece will be lost.");
+            newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    // import image from gallery
+                    /** TODO:
+                     * 1.) Re-scale large bitmaps in order to optimize canvas painting performance.
+                     * 2.) Play with scaleType in XML --or-- allow user to crop/scale image in view.
+                     */
+
+                    Intent i = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(i, RESULT_LOAD_IMG);
+
+                    dialog.dismiss();
+                    Log.v("Somethings been clicked", "import background image dialog check");
+                }
+            });
+            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    Log.v("Somethings been clicked", "no import, dialog cancelled");
+                }
+            });
+            newDialog.show();
 
         } //SAVE BUTTON
         else if (view.getId() == R.id.save_btn) {
@@ -302,11 +353,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {//could do with more quirky
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
                     //save drawing
                     //The method returns the URL of the image created, or null if the operation was unsuccessful
-                    drawView.setDrawingCacheEnabled(true);
+                    masterpiece.setDrawingCacheEnabled(true);
                     String imgSaved = MediaStore.Images.Media.insertImage(getContentResolver(),
-                            drawView.getDrawingCache(), UUID.randomUUID().toString() + ".jpeg", "Masterpiece");
+                            masterpiece.getDrawingCache(), UUID.randomUUID().toString() + ".jpeg", "Masterpiece");
 
                     // - this lets us give user feedback:
                     if (imgSaved != null) {
@@ -319,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         unsavedToast.show();
                     }
                     //Destroys the drawing cache so that any future drawings saved wont use the existing cache:
-                    drawView.destroyDrawingCache();
+                    masterpiece.destroyDrawingCache();
                 }
             });
             saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -332,12 +384,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } //SHARE BUTTON
         else if (view.getId() == R.id.share_btn) {
-            drawView.setDrawingCacheEnabled(true);
+            masterpiece.setDrawingCacheEnabled(true);
 
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("image/jpeg");
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            drawView.getDrawingCache().compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            masterpiece.getDrawingCache().compress(Bitmap.CompressFormat.JPEG, 100, bytes);
             File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
             try {
                 f.createNewFile();
@@ -350,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            drawView.destroyDrawingCache();
+            masterpiece.destroyDrawingCache();
         }
     }
 
@@ -371,6 +423,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paint));
             currPaint = (ImageButton) view;
 
+        }
+    }
+
+    // After action complete, set imported image as background
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
+                // get image from data
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                // get cursor
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+
+                // move to first row
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String imgDecodableString = cursor.getString(columnIndex);
+                cursor.close();
+
+                ImageView backgroundImage = (ImageView) findViewById(R.id.background_image);
+
+                // set image as background after decoding string
+                backgroundImage.setImageBitmap(BitmapFactory
+                        .decodeFile(imgDecodableString));
+
+            } else {
+                Toast.makeText(this, "You haven't picked an image",
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
         }
     }
 }

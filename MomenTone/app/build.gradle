@@ -25,9 +25,9 @@ android {
             keyPassword "$releasePassword"
         }
 
-        debug {
-            storeFile file("debug.keystore")
-        }
+//        debug {
+//            storeFile file("debug.keystore")
+//        }
     }
 
     buildTypes {
@@ -38,7 +38,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            //noinspection GroovyAssignabilityCheck signingConfig signingConfigs.release
         }
     }
 
